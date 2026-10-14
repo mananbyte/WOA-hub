@@ -22,8 +22,8 @@ See: .planning/PROJECT.md (updated 2026-10-14)
 
 Phase: 1 of 4 (Core Foundation & Marketplace Engine)  
 Plan: 0 of 3 in current phase  
-Status: Ready to plan Phase 1  
-Last activity: 2026-10-14 — Project initialization, domain research, requirements, and roadmap completed  
+Status: Ready to execute Phase 1 (Plans 01-01, 01-02, 01-03 ready)  
+Last activity: 2026-10-14 — Phase 1 technical research and 3 executable plans created  
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,7 +52,8 @@ Progress: [░░░░░░░░░░] 0%
 
 - [Init]: Chose modular monolith architecture (Node.js/Express + PostgreSQL + Drizzle + React SPA + discord.js) sharing in-process TypeScript domain services to avoid microservice complexity and eliminate Discord 3s timeout risks.
 - [Init]: Unified single-database marketplace model with audience scoping (`open`, `alliance_only`) prevents fragmented liquidity between independent players and alliances.
-- [Init]: Growth-first strategy with 100% free MVP; monetization deferred until active user base and network effects are established.
+- [Phase 1 Planning]: Enforced single active claim concurrency with PostgreSQL row-level locking (`SELECT ... FOR UPDATE`) and partial unique index on active claims.
+- [Phase 1 Planning]: Designed bilateral status progression state machine requiring both flight sender and recipient to report in-game completion before a contract marks `completed`.
 
 ### Pending Todos
 
@@ -70,6 +71,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-14 11:58  
-Stopped at: Project initialization complete; ready to plan Phase 1  
+Last session: 2026-10-14 13:00  
+Stopped at: Phase 1 plans created and ready for execution  
 Resume file: None  
