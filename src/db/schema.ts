@@ -18,7 +18,7 @@ export const users = pgTable("users", {
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   discordUsername: varchar("discord_username", { length: 100 }).notNull(),
   woaPlayerId: varchar("woa_player_id", { length: 100 }),
-  reputationScore: numeric("reputation_score", { precision: 4, scale: 2 }).default("5.00").notNull(),
+  reputationScore: numeric("reputation_score", { precision: 5, scale: 2 }).default("100.00").notNull(),
   totalCompletedContracts: integer("total_completed_contracts").default(0).notNull(),
   totalCancelledContracts: integer("total_cancelled_contracts").default(0).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
