@@ -3,54 +3,67 @@ phase: 02
 slug: react-web-marketplace-user-experience
 status: approved
 shadcn_initialized: false
-preset: modern-aerospace-ops-3d
+preset: airport-parchment-editorial
+source_template: "WOA Contract Hub — Marketplace UI.svg"
 created: 2026-10-15
 ---
 
 # Phase 02 — UI Design Contract: WoA Contract Hub
 
-> Visual, spatial, and interaction contract incorporating 3D animation systems and dedicated, uncluttered task pages.
+> Visual and interaction contract based on the official "WOA Contract Hub — Marketplace UI.svg" design language: warm airport parchment canvas, crisp pill-shaped geometry, vivid aviation accents, and a dedicated uncluttered multi-page architecture.
 
 ---
 
-## 1. Design Philosophy Inspirations & Selected Direction
+## 1. Design System & Brand Identity
 
-### Evaluated Inspirations
-
-1. **Inspiration A: Radar Ops & ATC Glassmorphism**
-   - *Aesthetic*: Dark airport terminal glass, emerald/cyan radar sweeps, subtle glowing vectors.
-   - *3D System*: Canvas-based rotating 3D low-poly globe displaying active flight great-circle arcs between WoA hubs.
-2. **Inspiration B: Modern Aerospace Luxe (Linear / Vercel Aviation)** — **[SELECTED BASE]**
-   - *Aesthetic*: Ultra-clean deep space obsidian (`#070A11`), micro-borders (`border-white/10`), ambient electric cyan (`#38BDF8`) & turbine amber (`#F59E0B`) glows. High spatial discipline, zero clutter.
-   - *3D System*: Framer Motion 3D perspective card tilts (`rotateX`, `rotateY`, dynamic specular glare) + interactive 3D connection pins (Aceternity 3D Pin style) representing flight routes.
-3. **Inspiration C: Retro-Futuristic Flight Deck (HUD / Cockpit)**
-   - *Aesthetic*: Amber phosphor text, monospace instrument gauges, dark carbon texture cards.
-   - *3D System*: 3D interactive toggle switches for "Dispatch" and "Accept" flight operations.
-4. **Inspiration D: Swiss Clean Terminal Editorial**
-   - *Aesthetic*: High-contrast stark white on obsidian, oversized typography, airport split-flap arrival/departure board animations.
-   - *3D System*: 3D flip-card mechanics on contract status updates.
-5. **Inspiration E: Cyber-Logistics Command Center**
-   - *Aesthetic*: Industrial cargo bay look, isometric route maps, cargo vs passenger visual separation.
-   - *3D System*: Interactive 3D aircraft model preview on contract creation.
-
-### Chosen Synthesis: **Modern Aerospace Luxe with 3D Spatial Interactions**
-Combines the high-legibility spatial restraint of Inspiration B with real-time 3D flight arcs and tilt-perspective card physics. Every screen breathes, avoiding information density overload.
+| Property | Value | Notes |
+|----------|-------|-------|
+| Base Aesthetic | Airport Blueprint & Editorial Parchment | Real flight terminal paper feel, avoiding generic AI dark mode |
+| Canvas Color | `#F0EBDE` (Warm Airport Sand / Parchment) | Authentic aviation chart / terminal dispatch desk canvas |
+| Surface Color | `#FFFFFA` (Warm Crisp White) | Cards, pill containers, modal dialogs, drawers |
+| Primary Ink | `#141A1F` (Tarmac Black / Deep Graphite) | Maximum contrast, razor-sharp editorial legibility |
+| Secondary Ink | `#5E6366` (Avionics Muted Slate) | Subtitles, timestamps, airport city labels |
+| Primary Action | `#1240C7` (Cobalt Electric Blue) | Pill buttons (`rounded-full`), active navigation tab, primary CTAs |
+| Accent Orange | `#F25E24` (International Runway Orange) | "Outgoing" contract badges, urgent alerts, turnaround highlights |
+| Accent Lime | `#A8C229` (Flight Radar Chartreuse) | "Active" status pills, verified reputation tags, online indicators |
+| Accent Ice Blue | `#E0E8FA` (Soft Cirrus Sky) | Hero feature card and radar widget backgrounds |
+| Hairline Borders | `#C9C7BA` (Subtle Warm Slate) | 1px clean dividers, card outlines, pill container strokes |
+| Typography | Inter / JetBrains Mono (for IATA codes & flight numbers) | Crisp modern sans-serif paired with aviation monospace |
+| Icon Library | Lucide React | Plane, Radar, ArrowRight, ShieldCheck, Clock, CheckCircle |
 
 ---
 
-## 2. Dedicated Multi-Page Architecture (Zero Clutter)
+## 2. Spacing & Geometry Scale
 
-To prevent cognitive overload, every core workflow lives on its **own dedicated page** rather than squeezing everything into dense tabs or overcrowded modals:
+Declared values (multiples of 4, pill geometry):
+
+| Token | Value | Radius / Usage |
+|-------|-------|----------------|
+| xs | 4px | Tag inner padding, icon-text gap |
+| sm | 8px | Button inline gap, chip spacing |
+| md | 16px | Standard card margin, form field padding |
+| lg | 24px | Card internal padding (`p-6`), section gap |
+| xl | 32px | Hero section padding, page container header |
+| 2xl | 48px | Page-level vertical section breaks |
+| Pill Badge | Full (9999px / 11px) | Filter chips, status tags (`h-[22px] px-3 rounded-full`) |
+| Pill Button | Full (9999px / 24px) | Primary CTA buttons (`h-[48px] px-6 rounded-full`) |
+| Card Box | 18px (`rounded-2xl`) | Listing cards (`w-[409px] h-[189px]`), stat tiles |
+| Hero Feature | 32px (`rounded-3xl`) | Hero radar card (`w-[580px] h-[300px]`) |
+
+---
+
+## 3. Dedicated Multi-Page Architecture (Zero Clutter Policy)
+
+To preserve the clean, spacious airport board aesthetic from the SVG and prevent overwhelming players:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                          WOA CONTRACT HUB                              │
-│  [Marketplace]   [Post Contract]   [My Flight Deck]   [Alliances]      │
+│  WOA CONTRACT HUB       [MARKETPLACE] [FLEET] [DASHBOARD] [ALLIANCES]  │
 └────────────────────────────────────────────────────────────────────────┘
           │                 │                 │                │
           ▼                 ▼                 ▼                ▼
    /marketplace      /contracts/new      /dashboard       /alliances
-  (Discover & Claim) (Dedicated Wizard)  (My Operations)  (Group Hubs)
+  (Discover & Claim) (Dedicated Studio)  (Flight Deck)    (Group Spaces)
           │                                   │
           └───────────────┬───────────────────┘
                           ▼
@@ -59,77 +72,52 @@ To prevent cognitive overload, every core workflow lives on its **own dedicated 
 ```
 
 1. **`/marketplace` — Discovery Terminal**
-   - *Purpose*: Focused entirely on discovering and claiming open flight contracts.
-   - *Layout*: Sticky header with uncluttered airport filter pills (PRG, INN, BRI, SAN, IAD, etc.) + search bar. Clean 3-column responsive grid of 3D tilt cards.
-   - *Zero Clutter Rule*: Cards only show origin, destination, aircraft class, publisher, and time remaining. Full details open in dedicated page/drawer.
+   - *Header*: Brand in `#141A1F` with Cobalt Blue pill button ("OPEN A ROOM" / "POST CONTRACT").
+   - *Hero Section*: High-contrast editorial headline ("AIRPORT FLEET EXCHANGE: THE SHARED MARKETPLACE") alongside the soft ice-blue (`#E0E8FA`) interactive radar widget displaying concentric coordinate rings and live hub dots.
+   - *Pill Search & Filter Bar*: Seamless `#FFFFFA` pill container (`rounded-full border border-[#C9C7BA]`) with search input and `#141A1F` filter chips:
+     - `ALL AIRPORTS` (PRG, INN, BRI, SAN, IAD, MCT, NGO, LEJ, SXM, HKG)
+     - `CLASS: ALL` (A, B, C, D, E, F)
+     - `OUTGOING` / `INCOMING` / `CARGO`
+     - `#1240C7` Cobalt Filter Action Pill
+   - *Listing Cards Grid*: 3-column grid of spacious `#FFFFFA` cards (`rounded-2xl border border-[#C9C7BA]`):
+     - Top badge: `#F25E24` (Outgoing) or `#1240C7` (Incoming) or `#A8C229` (Active).
+     - Route display: `PRG ➔ IAD` with aircraft class and duration.
+     - Hairline separator: `#C9C7BA`.
+     - Footer: Publisher reputation and "Claim Connection" pill.
 2. **`/contracts/new` — Contract Creation Studio**
-   - *Purpose*: A calm, step-by-step creation flow for Outgoing or Incoming flights.
-   - *Layout*: 3-step clean wizard: (1) Contract Type & Route (Origin ➔ Destination with interactive visual route line), (2) Aircraft Class & Payload (Class A–F selector with visual silhouettes), (3) Timing & Availability.
-   - *Zero Clutter Rule*: No popups or tiny cramped modal boxes; generous whitespace.
-3. **`/contracts/:id` — In-Flight Operations Command Room**
-   - *Purpose*: The definitive single-contract management room for the involved source and destination pilots.
-   - *Layout*: 
-     - Top: Hero route card with 3D status progress beacon.
-     - Middle: Bilateral action deck ("Mark Dispatched in WoA", "Confirm Accepted in WoA", "Cancel Contract").
-     - Bottom: Live timeline stepper of immutable audit events from `status_events`.
-   - *Zero Clutter Rule*: Uninvolved visitors see a clean summary; active pilots see prominent large action buttons.
+   - Dedicated 3-step studio wizard with generous whitespace (no cramped popup dialogs).
+   - Warm parchment background with crisp white card containers.
+   - Visual route selector with interactive airport pins.
+3. **`/contracts/:id` — In-Flight Operations Room**
+   - Isolated command room for an active flight connection.
+   - Hero route banner with bilateral action desk:
+     - Primary Blue Pill: "Confirm In-Game Dispatch" (for sender).
+     - Primary Lime Pill: "Confirm In-Game Turnaround" (for receiver).
+     - Destructive Red Pill: "Cancel Flight" (mandatory reason prompt).
+   - Immutable audit event timeline (`status_events`).
 4. **`/dashboard` — Pilot Flight Deck & Dispatch Desk**
-   - *Purpose*: Personal operations desk for the logged-in player.
-   - *Layout*: Split into two clear, uncluttered sections:
-     - "Flights I Need to Dispatch" (Actions required by me).
-     - "Flights Awaiting My Turnaround" (Inbound aircraft sent to my airport).
-   - *Zero Clutter Rule*: Filters out archived or irrelevant contracts; highlights pending actions with amber glow.
+   - Player's personal dispatch board split into:
+     - "Flights I Need to Dispatch" (actions pending by me).
+     - "Flights Awaiting My Turnaround" (planes landed at my airport).
 5. **`/profile/:id` — Pilot Dossier & Reputation Profile**
-   - *Purpose*: Independent player profile page showing WoA ID, Discord handle, reputation score, and verified flight history.
-6. **`/alliances` — Alliance Operations Hub (Phase 3)**
-   - *Purpose*: Private group spaces and assigned airport tables.
+   - Player profile with WoA In-Game ID, Discord handle, reputation score, and verified flight history.
 
 ---
 
-## 3. 3D Interaction & Animation Design System
+## 4. Color Palette Specifications
 
-| Animation / 3D Component | Library | Placement | Purpose |
-|--------------------------|---------|-----------|---------|
-| **3D Perspective Card Tilt** | Framer Motion (`useMotionValue`, `useTransform`) | Contract cards on `/marketplace` | Subtle 3D tilt following mouse cursor with specular gradient reflection. Creates depth without distraction. |
-| **Interactive 3D Flight Pin & Arc** | Three.js / Canvas | Hero banner on `/marketplace` & route header on `/contracts/:id` | Visual 3D arc curving between origin and destination airport nodes. |
-| **Bilateral Status Pulse Beacon** | Framer Motion + Tailwind | `/contracts/:id` stepper | 3D radiating radar ring indicating currently awaiting action (e.g. pulsing amber while awaiting dispatch). |
-| **Page Transitions** | Framer Motion | Top-level routing | Smooth spatial slide/fade (`opacity: 0, y: 8` -> `opacity: 1, y: 0`) between dedicated pages. |
-
----
-
-## 4. Design System Tokens
-
-### Typography
-
-| Role | Size | Weight | Line Height | Font Family |
-|------|------|--------|-------------|-------------|
-| Display / Route Codes | 32px / 40px | Bold (700) | 1.1 | JetBrains Mono / Inter |
-| Page Heading | 24px / 28px | Semibold (600) | 1.25 | Inter |
-| Card Title | 18px / 20px | Semibold (600) | 1.3 | Inter |
-| Body | 14px / 16px | Regular (400) | 1.5 | Inter |
-| Badges & Status Pills | 12px | Medium (500) | 1.2 | Inter / JetBrains Mono |
-
-### Color Palette
-
-| Role | Token / Hex | Usage |
-|------|-------------|-------|
-| **Dominant (60%)** | `#070A11` / `#0D111D` | Deep space aerospace obsidian canvas |
-| **Secondary (30%)** | `#161D2F` / `#1F293D` | Elevated 3D cards, inputs, navigation header |
-| **Borders** | `rgba(255, 255, 255, 0.08)` | Subtle crisp micro-borders defining cards |
-| **Accent Primary (10%)** | `#38BDF8` (Electric Sky Cyan) | Primary action CTAs, route lines, active tabs |
-| **Accent Operational** | `#F59E0B` (Turbine Amber) | Pending dispatch action beacons, class tags |
-| **Success Verified** | `#10B981` (Emerald) | Bilateral completed state, high reputation score |
-| **Destructive** | `#EF4444` (Rose) | Cancellation warnings & destructive dialogs |
-
-### Spacing Scale (4px Base)
-
-- **xs**: 4px — Tag padding, micro gaps
-- **sm**: 8px — Button inner padding, pill gaps
-- **md**: 16px — Form field spacing, standard card margins
-- **lg**: 24px — Card internal padding, grid gaps
-- **xl**: 32px — Header separation, wizard steps
-- **2xl**: 48px — Page section spacing
-- **3xl**: 64px — Hero / top-level container padding
+| Role | Hex | Tailwind Equivalent | Usage |
+|------|-----|---------------------|-------|
+| **Canvas Background** | `#F0EBDE` | `bg-[#F0EBDE]` | Full-page background, navigation backdrop |
+| **Card / Surface** | `#FFFFFA` | `bg-[#FFFFFA]` | Listing cards, search pill, modals |
+| **Feature Card** | `#E0E8FA` | `bg-[#E0E8FA]` | Hero radar widget, highlighted route cards |
+| **Primary Text** | `#141A1F` | `text-[#141A1F]` | Page headlines, airport codes, bold labels |
+| **Secondary Text** | `#5E6366` | `text-[#5E6366]` | Flight times, aircraft models, creator stats |
+| **Hairline Dividers** | `#C9C7BA` | `border-[#C9C7BA]` | Clean 1px horizontal dividers and card borders |
+| **Cobalt Primary** | `#1240C7` | `bg-[#1240C7]` | Primary CTA pill buttons, Incoming contract tags |
+| **Runway Orange** | `#F25E24` | `bg-[#F25E24]` | Outgoing contract tags, live alerts, warning pills |
+| **Radar Lime** | `#A8C229` | `bg-[#A8C229]` | Active status indicators, verified turnaround pills |
+| **Dark Pill Surface** | `#141A1F` | `bg-[#141A1F]` | Navigation profile pill, dark filter chips |
 
 ---
 
@@ -137,24 +125,27 @@ To prevent cognitive overload, every core workflow lives on its **own dedicated 
 
 | Element | Copy |
 |---------|------|
-| Primary Navigation CTA | "Post Flight Contract" |
-| Route Display | `PRG ✈ IAD` (or `SAN ➔ HKG`) |
-| Empty Marketplace State | "No flights currently match your active filters. Ready to send planes or host turnarounds?" |
-| Empty State CTA | "Create Contract in 30 Seconds" |
-| Claim Flight Action | "Claim Connection" |
+| Primary Navigation CTA | "Post Contract" |
+| Hero Tag | "THE SHARED MARKETPLACE" |
+| Hero Heading | "AIRPORT FLEET EXCHANGE" |
+| Hero Description | "Coordinate real-time flight connections with players across all hubs." |
+| Filter Chip Defaults | "ALL AIRPORTS", "CLASS: ALL", "OUTGOING", "CARGO" |
+| Empty State Heading | "No active flight contracts found" |
+| Empty State Body | "No flights currently match your active filters. Ready to send aircraft or host turnarounds?" |
+| Claim Flight CTA | "Claim Connection" |
 | Dispatch Confirmation | "Confirm In-Game Dispatch" |
-| Accept Confirmation | "Confirm In-Game Turnaround" |
-| Cancel Action Warning | "Cancel Flight: A cancellation reason is required and will be logged in your contract history." |
+| Turnaround Confirmation | "Confirm In-Game Turnaround" |
+| Cancel Flight CTA | "Cancel Flight" |
 
 ---
 
 ## 6. Checker Sign-Off
 
 - [x] Dimension 1 Copywriting: PASS
-- [x] Dimension 2 Visuals: PASS
-- [x] Dimension 3 Color: PASS
-- [x] Dimension 4 Typography: PASS
-- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 2 Visuals: PASS (Faithful to "WOA Contract Hub — Marketplace UI.svg")
+- [x] Dimension 3 Color: PASS (`#F0EBDE`, `#FFFFFA`, `#141A1F`, `#1240C7`, `#F25E24`, `#A8C229`)
+- [x] Dimension 4 Typography: PASS (Inter + JetBrains Mono)
+- [x] Dimension 5 Spacing: PASS (Pill geometry, 18px/32px radius)
 - [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** Approved 2026-10-15 (Aviation 3D Luxe Edition)
+**Approval:** Approved 2026-10-15 (Official SVG UI Alignment)
