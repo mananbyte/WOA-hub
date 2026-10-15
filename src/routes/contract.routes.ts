@@ -82,6 +82,17 @@ contractRouter.post("/:id/approve", requireAuth, async (req: Request, res: Respo
   }
 });
 
+// Flight sender reports partial dispatch in WoA
+contractRouter.post("/:id/partial-dispatch", requireAuth, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id as string;
+    const result = await ContractService.reportPartialDispatch(id, req.user!.userId);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Flight sender reports dispatch in WoA
 contractRouter.post("/:id/dispatch", requireAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -73,7 +73,7 @@ export const MarketplacePage = ({ onNavigate }: MarketplacePageProps) => {
 
           <p className="text-base text-[#5E6366] max-w-xl leading-relaxed">
             Coordinated flight contract dispatching for World of Airports players. Post your
-            outgoing aircraft or claim incoming turnarounds across 10 global hubs with zero game API
+            outgoing aircraft or claim incoming turnarounds across all 18 playable WoA hubs with zero game API
             bottlenecks.
           </p>
 

@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   History,
   Sparkles,
+  RotateCw,
 } from "lucide-react";
 
 interface ContractDetailPageProps {
@@ -102,6 +103,18 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
     }
   };
 
+  const handlePartialDispatch = async () => {
+    setActionLoading(true);
+    try {
+      await api.listings.partialDispatch(contractId);
+      await fetchDetails();
+    } catch (err: any) {
+      alert(err?.message || "Failed to report partial dispatch");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   const handleDispatch = async () => {
     setActionLoading(true);
     try {
@@ -165,7 +178,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
       {/* Hero Flight Room Header */}
       <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className={`h-6 px-3 rounded-full text-xs font-mono font-bold uppercase inline-flex items-center text-white ${
                 listing.contractType === "outgoing" ? "bg-[#F25E24]" : "bg-[#1240C7]"
@@ -173,6 +186,13 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
             >
               {listing.contractType === "outgoing" ? "OUTGOING FLIGHT" : "INCOMING TURNAROUND"}
             </span>
+
+            {listing.renewal && (
+              <span className="h-6 px-3 rounded-full text-xs font-mono font-extrabold uppercase bg-[#A8C229] text-[#141A1F] inline-flex items-center gap-1.5 border border-[#8FA81F] shadow-2xs">
+                <RotateCw className="w-3.5 h-3.5 text-[#141A1F]" />
+                ↻ RENEWABLE CONTRACT
+              </span>
+            )}
 
             <span className="h-6 px-3 rounded-full text-xs font-mono font-bold bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA]">
               CLASS {listing.aircraftClass} {listing.isCargo ? "(CARGO)" : ""}
@@ -187,10 +207,14 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
                   ? "bg-[#A8C229] text-[#141A1F]"
                   : listing.status === "cancelled"
                   ? "bg-[#F25E24] text-white"
+                  : listing.status === "partially_dispatched"
+                  ? "bg-[#D35400] text-white"
+                  : listing.status === "claimed"
+                  ? "bg-[#E67E22] text-white"
                   : "bg-[#141A1F] text-white"
               }`}
             >
-              ● {listing.status}
+              ● {listing.status.replace(/_/g, " ")}
             </span>
           </div>
         </div>
@@ -338,8 +362,8 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
           </div>
         )}
 
-        {/* State: In Progress / Dispatched -> Sender and Receiver Bilateral Controls */}
-        {(listing.status === "in_progress" || listing.status === "dispatched") && (
+        {/* State: In Progress / Partially Dispatched / Dispatched -> Sender and Receiver Bilateral Controls */}
+        {(listing.status === "in_progress" || listing.status === "partially_dispatched" || listing.status === "dispatched") && (
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Sender Action Box */}
@@ -349,17 +373,30 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
                 </span>
                 <p className="text-xs text-[#141A1F] font-bold">
                   {listing.status === "dispatched"
-                    ? "✓ Flight Dispatched in WoA"
+                    ? "✓ Flight Fully Dispatched in WoA"
+                    : listing.status === "partially_dispatched"
+                    ? "⚡ Partially Dispatched (Fleet in Flight)"
                     : "Awaiting In-Game Aircraft Departure"}
                 </p>
-                {isSender && listing.status === "in_progress" && (
-                  <button
-                    onClick={handleDispatch}
-                    disabled={actionLoading}
-                    className="w-full h-10 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer mt-2"
-                  >
-                    CONFIRM IN-GAME DISPATCH
-                  </button>
+                {isSender && (listing.status === "in_progress" || listing.status === "partially_dispatched") && (
+                  <div className="space-y-2 pt-1">
+                    {listing.status === "in_progress" && (
+                      <button
+                        onClick={handlePartialDispatch}
+                        disabled={actionLoading}
+                        className="w-full h-10 rounded-full bg-[#D35400] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#B34500] cursor-pointer"
+                      >
+                        REPORT PARTIAL DISPATCH
+                      </button>
+                    )}
+                    <button
+                      onClick={handleDispatch}
+                      disabled={actionLoading}
+                      className="w-full h-10 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer"
+                    >
+                      CONFIRM FULL IN-GAME DISPATCH
+                    </button>
+                  </div>
                 )}
               </div>
 
@@ -369,11 +406,11 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
                   PHASE 2: RECEIVER TURNAROUND IN WOA
                 </span>
                 <p className="text-xs text-[#141A1F] font-bold">
-                  {listing.status === "dispatched"
+                  {listing.status === "dispatched" || listing.status === "partially_dispatched"
                     ? "Aircraft En Route — Handle on Gate"
                     : "Pending Sender Dispatch First"}
                 </p>
-                {isReceiver && listing.status === "dispatched" && (
+                {isReceiver && (listing.status === "dispatched" || listing.status === "partially_dispatched") && (
                   <button
                     onClick={handleAccept}
                     disabled={actionLoading}

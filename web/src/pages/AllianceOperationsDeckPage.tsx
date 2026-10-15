@@ -22,7 +22,9 @@ import {
   Plus,
   Settings,
   Star,
+  RotateCw,
 } from "lucide-react";
+import { WOA_AIRPORTS } from "../data/airports";
 
 interface AllianceOperationsDeckPageProps {
   slug: string;
@@ -57,6 +59,7 @@ export const AllianceOperationsDeckPage = ({
   const [destinationAirport, setDestinationAirport] = useState("IAD");
   const [aircraftClass, setAircraftClass] = useState<AircraftClass>("C");
   const [isCargo, setIsCargo] = useState(false);
+  const [renewal, setRenewal] = useState(false);
   const [delayHours, setDelayHours] = useState(12);
   const [notes, setNotes] = useState("");
   const [posting, setPosting] = useState(false);
@@ -122,6 +125,7 @@ export const AllianceOperationsDeckPage = ({
         destination_airport: destinationAirport.toUpperCase(),
         aircraft_class: aircraftClass,
         is_cargo: isCargo,
+        renewal,
         expires_in_hours: 24,
         alliance_id: alliance.id,
         visibility: "alliance_only",
@@ -312,9 +316,42 @@ export const AllianceOperationsDeckPage = ({
           className="h-12 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition cursor-pointer flex items-center gap-2 self-start md:self-auto shadow-md shadow-[#1240C7]/20"
         >
           <Plus className="w-4 h-4 text-white" />
-          <span>DISPATCH ALLIANCE CONTRACT</span>
+          <span>{userMembership.role === "guest" ? "REQUEST FLEET AIRCRAFT" : "DISPATCH ALLIANCE CONTRACT"}</span>
         </button>
       </div>
+
+      {/* Guest Protocol Hero Banner (Discord Alliance Strategy) */}
+      {userMembership.role === "guest" && (
+        <div className="bg-[#1240C7]/5 border-2 border-[#1240C7]/30 rounded-3xl p-6 sm:p-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#1240C7] text-white text-[10px] font-mono font-extrabold uppercase">
+                GUEST PILOT PROTOCOL
+              </span>
+              <span className="text-xs font-mono font-bold text-[#141A1F]">
+                DISCORD ALLIANCE STRATEGY
+              </span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-mono font-extrabold text-[#141A1F]">
+              REQUEST AIRCRAFT FROM ALLIANCE FLEETS
+            </h3>
+            <p className="text-xs text-[#5E6366] max-w-2xl leading-relaxed">
+              As an alliance guest, you can request flights directly to your airport for turnaround points! Alliance members stationed at your selected departure hub will see your request and dispatch aircraft to your gates.
+            </p>
+          </div>
+
+          <button
+            onClick={() => {
+              setContractType("incoming");
+              setPostModalOpen(true);
+            }}
+            className="h-12 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition cursor-pointer shrink-0 flex items-center gap-2 shadow-md shadow-[#1240C7]/20"
+          >
+            <Plane className="w-4 h-4" />
+            <span>REQUEST PLANES TO MY AIRPORT</span>
+          </button>
+        </div>
+      )}
 
       {/* Navigation Tabs Bar */}
       <div className="flex items-center gap-2 bg-[#FFFFFA] p-1.5 rounded-full border border-[#C9C7BA] shadow-xs overflow-x-auto">
@@ -419,15 +456,30 @@ export const AllianceOperationsDeckPage = ({
                               : "bg-[#A8C229]/20 text-[#2D5A06]"
                           }`}
                         >
-                          {item.contractType.toUpperCase()}
+                          {item.contractType === "incoming" ? "GUEST AIRCRAFT REQUEST" : "OUTGOING FLIGHT"}
                         </span>
                         <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#F0EBDE] text-[#5E6366] font-bold">
                           CLASS {item.aircraftClass} {item.isCargo ? "• CARGO" : "• PAX"}
                         </span>
+                        {item.renewal && (
+                          <span
+                            title="Renewable contract: marked for recurring renewal upon completion"
+                            className="text-[10px] font-mono font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#A8C229] text-[#141A1F] flex items-center gap-1 shadow-2xs border border-[#8FA81F]"
+                          >
+                            <RotateCw className="w-3 h-3 text-[#141A1F]" />
+                            ↻ RENEWAL
+                          </span>
+                        )}
                         {item.partnerPriority && (
                           <span className="text-[10px] font-mono font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#1240C7] text-white flex items-center gap-1 shadow-2xs">
                             <Star className="w-3 h-3 fill-white" />
                             PARTNER PRIORITY HUB
+                          </span>
+                        )}
+                        {myAssignedAirports.includes(item.originAirport) && (
+                          <span className="text-[10px] font-mono font-black uppercase px-2.5 py-0.5 rounded-full bg-[#F59E0B] text-black flex items-center gap-1 shadow-2xs border border-[#D97706]">
+                            <Star className="w-3 h-3 fill-black text-black" />
+                            ★ MATCHES YOUR ASSIGNED HUB ({item.originAirport})
                           </span>
                         )}
                       </div>
@@ -486,9 +538,9 @@ export const AllianceOperationsDeckPage = ({
                       {item.status === "open" && !isCreator && (
                         <button
                           onClick={() => handleClaimFlight(item.id)}
-                          className="h-8 px-4 rounded-full bg-[#1240C7] text-white text-[11px] font-mono font-bold hover:bg-[#0E339E] cursor-pointer shadow-2xs"
+                          className="h-8 px-4 rounded-full bg-[#1240C7] text-white text-[11px] font-mono font-bold hover:bg-[#0E339E] cursor-pointer shadow-2xs flex items-center gap-1"
                         >
-                          CLAIM TURNAROUND
+                          <span>{item.contractType === "incoming" ? "CLAIM & DISPATCH PLANES" : "CLAIM TURNAROUND"}</span>
                         </button>
                       )}
 
@@ -512,7 +564,7 @@ export const AllianceOperationsDeckPage = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-mono font-extrabold text-[#141A1F]">
-                10-HUB AIRPORT ROUTE MATRIX
+                18-HUB AIRPORT ROUTE MATRIX
               </h2>
               <p className="text-xs text-[#5E6366] mt-0.5">
                 Staff official World of Airports bases to ensure incoming flights receive guaranteed partner turnarounds. Each pilot can operate up to 3 hubs.
@@ -531,7 +583,7 @@ export const AllianceOperationsDeckPage = ({
           </div>
 
           {/* Matrix Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {matrixData.matrix.map((hub) => {
               const isAssignedToMe = myAssignedAirports.includes(hub.code);
               const isCovered = hub.pilots.length > 0;
@@ -922,20 +974,41 @@ export const AllianceOperationsDeckPage = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 py-1">
-                <input
-                  type="checkbox"
-                  id="alliance-cargo-check"
-                  checked={isCargo}
-                  onChange={(e) => setIsCargo(e.target.checked)}
-                  className="rounded accent-[#1240C7]"
-                />
-                <label
-                  htmlFor="alliance-cargo-check"
-                  className="text-xs font-bold font-mono text-[#141A1F] uppercase cursor-pointer"
-                >
-                  CARGO FREIGHT AIRCRAFT
-                </label>
+              <div className="flex flex-wrap items-center gap-4 py-1">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="alliance-cargo-check"
+                    checked={isCargo}
+                    onChange={(e) => setIsCargo(e.target.checked)}
+                    className="rounded accent-[#1240C7]"
+                  />
+                  <label
+                    htmlFor="alliance-cargo-check"
+                    className="text-xs font-bold font-mono text-[#141A1F] uppercase cursor-pointer"
+                  >
+                    CARGO FREIGHT AIRCRAFT
+                  </label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="alliance-renewal-check"
+                    checked={renewal}
+                    onChange={(e) => setRenewal(e.target.checked)}
+                    className="rounded accent-[#1240C7]"
+                  />
+                  <label
+                    htmlFor="alliance-renewal-check"
+                    className="text-xs font-bold font-mono text-[#141A1F] uppercase cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>RECURRING FLIGHT</span>
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#A8C229] text-[#141A1F]">
+                      ↻ RENEWAL
+                    </span>
+                  </label>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -943,28 +1016,34 @@ export const AllianceOperationsDeckPage = ({
                   <label className="block font-bold text-[#141A1F] uppercase mb-1">
                     ORIGIN AIRPORT
                   </label>
-                  <input
-                    type="text"
-                    required
-                    maxLength={4}
+                  <select
                     value={originAirport}
-                    onChange={(e) => setOriginAirport(e.target.value.toUpperCase())}
-                    className="w-full bg-[#FFFFFA] border border-[#C9C7BA] rounded-xl px-3 py-2 text-xs font-mono text-[#141A1F]"
-                  />
+                    onChange={(e) => setOriginAirport(e.target.value)}
+                    className="w-full bg-[#FFFFFA] border border-[#C9C7BA] rounded-xl px-3 py-2 text-xs font-mono text-[#141A1F] cursor-pointer"
+                  >
+                    {WOA_AIRPORTS.map((ap) => (
+                      <option key={ap.code} value={ap.code}>
+                        {ap.code} – {ap.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
                   <label className="block font-bold text-[#141A1F] uppercase mb-1">
                     DESTINATION AIRPORT
                   </label>
-                  <input
-                    type="text"
-                    required
-                    maxLength={4}
+                  <select
                     value={destinationAirport}
-                    onChange={(e) => setDestinationAirport(e.target.value.toUpperCase())}
-                    className="w-full bg-[#FFFFFA] border border-[#C9C7BA] rounded-xl px-3 py-2 text-xs font-mono text-[#141A1F]"
-                  />
+                    onChange={(e) => setDestinationAirport(e.target.value)}
+                    className="w-full bg-[#FFFFFA] border border-[#C9C7BA] rounded-xl px-3 py-2 text-xs font-mono text-[#141A1F] cursor-pointer"
+                  >
+                    {WOA_AIRPORTS.map((ap) => (
+                      <option key={ap.code} value={ap.code}>
+                        {ap.code} – {ap.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 

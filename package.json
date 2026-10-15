@@ -11,7 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx src/db/seed.ts",
-    "test": "tsx tests/auth.test.ts && tsx tests/contract.test.ts && tsx tests/concurrency.test.ts && tsx tests/alliance.test.ts && tsx tests/escalation.test.ts"
+    "test": "tsx tests/auth.test.ts && tsx tests/contract.test.ts && tsx tests/concurrency.test.ts && tsx tests/alliance.test.ts && tsx tests/escalation.test.ts && tsx tests/alliance_guest_flow.test.ts"
   },
   "keywords": [
     "woa",

@@ -1,4 +1,4 @@
-import { Plane, Clock, ShieldCheck, ArrowRight, Package } from "lucide-react";
+import { Plane, Clock, ShieldCheck, ArrowRight, Package, RotateCw } from "lucide-react";
 import { type Listing } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 
@@ -29,12 +29,37 @@ export const ContractCard = ({
 
   const isOutgoing = listing.contractType === "outgoing";
 
+  const getStatusDisplay = (status: string) => {
+    switch (status) {
+      case "open":
+        return { label: "● OPEN", color: "text-[#A8C229]" };
+      case "claimed":
+        return { label: "● WAITING FOR APPROVAL", color: "text-[#E67E22]" };
+      case "in_progress":
+        return { label: "● APPROVED / IN FLIGHT", color: "text-[#1240C7]" };
+      case "partially_dispatched":
+        return { label: "● PARTIALLY DISPATCHED", color: "text-[#D35400]" };
+      case "dispatched":
+        return { label: "● DISPATCHED", color: "text-[#2980B9]" };
+      case "completed":
+        return { label: "● COMPLETED", color: "text-[#27AE60]" };
+      case "cancelled":
+        return { label: "● CANCELLED", color: "text-[#C0392B]" };
+      case "expired":
+        return { label: "● EXPIRED", color: "text-[#7F8C8D]" };
+      default:
+        return { label: `● ${status.toUpperCase()}`, color: "text-[#5E6366]" };
+    }
+  };
+
+  const statusInfo = getStatusDisplay(listing.status);
+
   return (
     <div className="bg-[#FFFFFA] rounded-2xl border border-[#C9C7BA] p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5">
       {/* Top Header: Tag Badge + Class Tag */}
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center flex-wrap gap-1.5">
             <span
               className={`h-[22px] px-3 rounded-full text-[11px] font-mono font-bold uppercase inline-flex items-center tracking-wider text-white shadow-2xs ${
                 isOutgoing ? "bg-[#F25E24]" : "bg-[#1240C7]"
@@ -42,6 +67,16 @@ export const ContractCard = ({
             >
               {isOutgoing ? "OUTGOING FLIGHT" : "INCOMING TURNAROUND"}
             </span>
+
+            {listing.renewal && (
+              <span
+                title="This contract is marked for recurring renewal upon completion"
+                className="h-[22px] px-2.5 rounded-full text-[10px] font-mono font-extrabold uppercase bg-[#A8C229] text-[#141A1F] inline-flex items-center gap-1 border border-[#8FA81F] shadow-2xs"
+              >
+                <RotateCw className="w-3 h-3 text-[#141A1F]" />
+                ↻ RENEWAL
+              </span>
+            )}
 
             {listing.isCargo && (
               <span className="h-[22px] px-2.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#141A1F] text-white inline-flex items-center gap-1">
@@ -79,16 +114,8 @@ export const ContractCard = ({
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#5E6366] block">
               STATUS
             </span>
-            <span
-              className={`text-xs font-mono font-bold uppercase ${
-                listing.status === "open"
-                  ? "text-[#A8C229]"
-                  : listing.status === "completed"
-                  ? "text-[#1240C7]"
-                  : "text-[#F25E24]"
-              }`}
-            >
-              ● {listing.status}
+            <span className={`text-xs font-mono font-bold uppercase ${statusInfo.color}`}>
+              {statusInfo.label}
             </span>
           </div>
         </div>

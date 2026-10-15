@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api, type ContractType, type AircraftClass } from "../api/client";
-import { Plane, ArrowRight, ArrowLeft, CheckCircle2, Package, Clock, AlertCircle } from "lucide-react";
+import { Plane, ArrowRight, ArrowLeft, CheckCircle2, Package, Clock, AlertCircle, RotateCw } from "lucide-react";
+import { WOA_AIRPORTS } from "../data/airports";
 
 interface NewContractPageProps {
   onNavigate: (
@@ -9,19 +10,6 @@ interface NewContractPageProps {
     param?: string
   ) => void;
 }
-
-const AIRPORTS = [
-  { code: "PRG", name: "Prague (PRG)", region: "Europe" },
-  { code: "INN", name: "Innsbruck (INN)", region: "Europe" },
-  { code: "BRI", name: "Bari (BRI)", region: "Europe" },
-  { code: "SAN", name: "San Diego (SAN)", region: "North America" },
-  { code: "IAD", name: "Washington Dulles (IAD)", region: "North America" },
-  { code: "MCT", name: "Muscat (MCT)", region: "Middle East" },
-  { code: "NGO", name: "Nagoya (NGO)", region: "Asia" },
-  { code: "LEJ", name: "Leipzig/Halle (LEJ)", region: "Europe" },
-  { code: "SXM", name: "Princess Juliana (SXM)", region: "Caribbean" },
-  { code: "HKG", name: "Hong Kong (HKG)", region: "Asia" },
-];
 
 const CLASSES: { code: AircraftClass; label: string; examples: string }[] = [
   { code: "A", label: "Class A (Light)", examples: "Cessna, DHC-6" },
@@ -48,6 +36,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
   const [destinationAirport, setDestinationAirport] = useState("IAD");
   const [aircraftClass, setAircraftClass] = useState<AircraftClass>("E");
   const [isCargo, setIsCargo] = useState(false);
+  const [renewal, setRenewal] = useState(false);
   const [expiresInHours, setExpiresInHours] = useState(24);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -85,6 +74,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
         contract_type: contractType,
         aircraft_class: aircraftClass,
         is_cargo: isCargo,
+        renewal,
         origin_airport: originAirport,
         destination_airport: destinationAirport,
         notes: notes.trim() || undefined,
@@ -113,7 +103,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
             OPEN A NEW FLIGHT CONTRACT
           </h1>
           <p className="text-sm text-[#5E6366] mt-0.5">
-            Configure your route, aircraft category, and operational window.
+            Configure your route, aircraft category, and operational window across all 18 WoA hubs.
           </p>
         </div>
 
@@ -218,9 +208,9 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
                   onChange={(e) => setOriginAirport(e.target.value)}
                   className="w-full h-12 px-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] text-sm font-mono font-bold text-[#141A1F] focus:outline-none focus:border-[#1240C7] cursor-pointer"
                 >
-                  {AIRPORTS.map((ap) => (
+                  {WOA_AIRPORTS.map((ap) => (
                     <option key={ap.code} value={ap.code}>
-                      {ap.code} — {ap.name}
+                      {ap.code} — {ap.name} ({ap.country})
                     </option>
                   ))}
                 </select>
@@ -235,9 +225,9 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
                   onChange={(e) => setDestinationAirport(e.target.value)}
                   className="w-full h-12 px-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] text-sm font-mono font-bold text-[#141A1F] focus:outline-none focus:border-[#1240C7] cursor-pointer"
                 >
-                  {AIRPORTS.map((ap) => (
+                  {WOA_AIRPORTS.map((ap) => (
                     <option key={ap.code} value={ap.code}>
-                      {ap.code} — {ap.name}
+                      {ap.code} — {ap.name} ({ap.country})
                     </option>
                   ))}
                 </select>
@@ -405,6 +395,42 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
               })}
             </div>
 
+            {/* Renewal Contract Toggle Card */}
+            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#A8C229] text-[#141A1F] flex items-center justify-center font-bold shrink-0">
+                  <RotateCw className="w-5 h-5 text-[#141A1F]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-bold font-mono text-[#141A1F]">
+                      RENEWABLE CONTRACT (RECURRING FLIGHTS)
+                    </p>
+                    <span className="h-4 px-1.5 rounded text-[9px] font-mono font-bold uppercase bg-[#A8C229] text-[#141A1F]">
+                      ↻ RENEWAL
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#5E6366]">
+                    When checked, anyone viewing or claiming this contract card will see the ↻ RENEWAL flag, signalling you want repeating turnarounds upon completion.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setRenewal(!renewal)}
+                className={`w-12 h-7 rounded-full p-1 transition cursor-pointer shrink-0 ${
+                  renewal ? "bg-[#1240C7]" : "bg-[#C9C7BA]"
+                }`}
+              >
+                <div
+                  className={`w-5 h-5 rounded-full bg-white transition-transform ${
+                    renewal ? "translate-x-5" : ""
+                  }`}
+                />
+              </button>
+            </div>
+
             {/* Flight Notes */}
             <div>
               <label className="block text-xs font-mono uppercase font-bold text-[#5E6366] mb-2">
@@ -439,6 +465,12 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
                   <span className="text-[#5E6366]">CLASS: </span>
                   <span className="font-bold text-[#141A1F]">
                     {aircraftClass} {isCargo ? "(CARGO)" : ""}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[#5E6366]">RENEWAL: </span>
+                  <span className={`font-bold ${renewal ? "text-[#1240C7]" : "text-[#5E6366]"}`}>
+                    {renewal ? "↻ YES (RECURRING)" : "NO (ONE-OFF)"}
                   </span>
                 </div>
                 <div>

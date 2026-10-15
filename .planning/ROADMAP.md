@@ -8,7 +8,7 @@ WoA Contract Hub is built as a modular monolith providing a unified contract mar
 
 - [x] **Phase 1: Core Foundation & Marketplace Engine** - Database models, authentication, contract posting, concurrency-safe claiming, and bilateral status state machine.
 - [x] **Phase 2: React Web Marketplace & User Experience** - Responsive web SPA, real-time filtering board, contract detail views, and user dashboards.
-- [ ] **Phase 3: Alliance Spaces & Scoped Query Engine** - Group management, RBAC, private listings, assigned-airport hubs, and background escalation workers.
+- [x] **Phase 3: Alliance Spaces & Scoped Query Engine** - Group management, RBAC, private listings, assigned-airport hubs, and background escalation workers.
 - [ ] **Phase 4: Discord Bot Integration, Notifications & Trust System** - discord.js bot, DM alerts, slash commands, channel feeds, reputation ratings, and moderation tools.
 
 ## Progress
@@ -20,7 +20,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |---|---|---|---|
 | 1. Core Foundation & Marketplace Engine | 3/3 | Complete | 2026-10-15 |
 | 2. React Web Marketplace & User Experience | 2/2 | Complete | 2026-10-15 |
-| 3. Alliance Spaces & Scoped Query Engine | 2/3 | In Progress | - |
+| 3. Alliance Spaces & Scoped Query Engine | 3/3 | Complete | 2026-10-15 |
 | 4. Discord Bot Integration, Notifications & Trust System | 0/2 | Not started | - |
 
 ### Phase 1: Core Foundation & Marketplace Engine
@@ -74,7 +74,7 @@ Plans:
 Plans:
 - [x] 03-01: Implement Alliance data model, membership invite/approval flow, 4-tier RBAC, and assigned-airport registry.
 - [x] 03-02: Implement audience-scoped query engine (`open` vs `alliance_only`), alliance web workspace, and `pg-boss` worker for listing expiration and escalation timers.
-- [ ] 03-03: Implement Discord-style Alliance Guest request protocol, 18-playable airport expansion, renewal flag, partial dispatch state, and direction-aware smart airport filtering.
+- [x] 03-03: Implement Discord-style Alliance Guest request protocol, 18-playable airport expansion, renewal flag, partial dispatch state, and direction-aware smart airport filtering.
 
 ### Phase 4: Discord Bot Integration, Notifications & Trust System
 **Goal**: Integrate the discord.js bot sharing the in-process domain core for instant DM notifications, slash commands, and webhook channel broadcasts, alongside a bilateral reputation rating and moderation system.
@@ -101,10 +101,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Foundation & Marketplace Engine | 3/3 | Complete | 2026-10-15 |
-| 2. React Web Marketplace & User Experience | 0/2 | Not started | - |
-| 3. Alliance Spaces & Scoped Query Engine | 0/2 | Not started | - |
+| 2. React Web Marketplace & User Experience | 2/2 | Complete | 2026-10-15 |
+| 3. Alliance Spaces & Scoped Query Engine | 3/3 | Complete | 2026-10-15 |
 | 4. Discord Bot Integration, Notifications & Trust System | 0/2 | Not started | - |
 
 ---
 *Roadmap created: 2026-10-14*  
-*Last updated: 2026-10-15 (Phase 1 Shipped)*
+*Last updated: 2026-10-15 (Phase 3 Shipped)*

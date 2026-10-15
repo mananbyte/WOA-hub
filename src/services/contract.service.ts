@@ -63,6 +63,7 @@ export class ContractService {
         contractType: input.contract_type,
         aircraftClass: input.aircraft_class,
         isCargo: input.is_cargo,
+        renewal: input.renewal || false,
         originAirport: input.origin_airport,
         destinationAirport: input.destination_airport,
         notes: input.notes || null,
@@ -118,9 +119,18 @@ export class ContractService {
 
     if (filters.airport) {
       const ap = filters.airport.toUpperCase();
-      conditions.push(
-        sql`(${listings.originAirport} = ${ap} OR ${listings.destinationAirport} = ${ap})`
-      );
+      if (filters.contractType === "incoming") {
+        // Incoming contracts: flight lands at this airport (destination)
+        conditions.push(eq(listings.destinationAirport, ap));
+      } else if (filters.contractType === "outgoing") {
+        // Outgoing contracts: flight departs from this airport (origin)
+        conditions.push(eq(listings.originAirport, ap));
+      } else {
+        // Unspecified direction: match either origin or destination
+        conditions.push(
+          sql`(${listings.originAirport} = ${ap} OR ${listings.destinationAirport} = ${ap})`
+        );
+      }
     }
 
     if (filters.aircraftClass) {
@@ -184,6 +194,7 @@ export class ContractService {
         visibility: listings.visibility,
         aircraftClass: listings.aircraftClass,
         isCargo: listings.isCargo,
+        renewal: listings.renewal,
         originAirport: listings.originAirport,
         destinationAirport: listings.destinationAirport,
         notes: listings.notes,
@@ -235,6 +246,7 @@ export class ContractService {
         visibility: listings.visibility,
         aircraftClass: listings.aircraftClass,
         isCargo: listings.isCargo,
+        renewal: listings.renewal,
         originAirport: listings.originAirport,
         destinationAirport: listings.destinationAirport,
         notes: listings.notes,
@@ -424,6 +436,57 @@ export class ContractService {
     });
   }
 
+  static async reportPartialDispatch(listingId: string, actorId: string) {
+    return await db.transaction(async (tx) => {
+      const [listing] = await tx
+        .select()
+        .from(listings)
+        .where(eq(listings.id, listingId))
+        .for("update");
+
+      if (!listing || (listing.status !== "in_progress" && listing.status !== "partially_dispatched")) {
+        const err = new Error("Contract is not currently in progress or partially dispatched");
+        (err as any).statusCode = 400;
+        throw err;
+      }
+
+      const [activeClaim] = await tx
+        .select()
+        .from(listingClaims)
+        .where(and(eq(listingClaims.listingId, listingId), eq(listingClaims.status, "accepted")));
+
+      if (!activeClaim) {
+        const err = new Error("No accepted active claim found");
+        (err as any).statusCode = 400;
+        throw err;
+      }
+
+      // Check who the sender is
+      const senderId = listing.contractType === "outgoing" ? listing.creatorId : activeClaim.claimantId;
+      if (actorId !== senderId) {
+        const err = new Error("Only the flight sender can report partial dispatch");
+        (err as any).statusCode = 403;
+        throw err;
+      }
+
+      await tx
+        .update(listings)
+        .set({ status: "partially_dispatched", updatedAt: new Date() })
+        .where(eq(listings.id, listingId));
+
+      await tx.insert(statusEvents).values({
+        listingId,
+        actorId,
+        fromStatus: listing.status,
+        toStatus: "partially_dispatched",
+        eventType: "partially_dispatched_woa",
+        notes: "Sender reported partial aircraft dispatch in-game",
+      });
+
+      return { success: true, status: "partially_dispatched", event: "partially_dispatched_woa" };
+    });
+  }
+
   static async reportDispatched(listingId: string, actorId: string) {
     return await db.transaction(async (tx) => {
       const [listing] = await tx
@@ -432,8 +495,8 @@ export class ContractService {
         .where(eq(listings.id, listingId))
         .for("update");
 
-      if (!listing || listing.status !== "in_progress") {
-        const err = new Error("Contract is not currently in progress");
+      if (!listing || (listing.status !== "in_progress" && listing.status !== "partially_dispatched")) {
+        const err = new Error("Contract is not currently in progress or partially dispatched");
         (err as any).statusCode = 400;
         throw err;
       }
@@ -485,7 +548,7 @@ export class ContractService {
         await tx.insert(statusEvents).values({
           listingId,
           actorId,
-          fromStatus: "in_progress",
+          fromStatus: listing.status,
           toStatus: "completed",
           eventType: "completed",
           notes: "Bilateral confirmation complete: flight dispatched & accepted",
@@ -504,8 +567,8 @@ export class ContractService {
         .where(eq(listings.id, listingId))
         .for("update");
 
-      if (!listing || listing.status !== "in_progress") {
-        const err = new Error("Contract is not currently in progress");
+      if (!listing || (listing.status !== "in_progress" && listing.status !== "partially_dispatched")) {
+        const err = new Error("Contract is not currently in progress or partially dispatched");
         (err as any).statusCode = 400;
         throw err;
       }

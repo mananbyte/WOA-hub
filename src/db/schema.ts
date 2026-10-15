@@ -2,7 +2,7 @@ import { pgTable, uuid, varchar, text, numeric, boolean, timestamp, pgEnum, uniq
 import { sql } from "drizzle-orm";
 
 export const contractTypeEnum = pgEnum("contract_type", ["outgoing", "incoming"]);
-export const listingStatusEnum = pgEnum("listing_status", ["open", "claimed", "in_progress", "dispatched", "accepted", "completed", "cancelled", "expired"]);
+export const listingStatusEnum = pgEnum("listing_status", ["open", "claimed", "in_progress", "partially_dispatched", "dispatched", "accepted", "completed", "cancelled", "expired"]);
 export const claimStatusEnum = pgEnum("claim_status", ["pending", "accepted", "rejected", "cancelled"]);
 export const aircraftClassEnum = pgEnum("aircraft_class", ["A", "B", "C", "D", "E", "F"]);
 
@@ -84,6 +84,7 @@ export const listings = pgTable("listings", {
   visibility: listingVisibilityEnum("visibility").default("public").notNull(),
   aircraftClass: aircraftClassEnum("aircraft_class").notNull(),
   isCargo: boolean("is_cargo").default(false).notNull(),
+  renewal: boolean("renewal").default(false).notNull(),
   originAirport: varchar("origin_airport", { length: 4 }).references(() => airports.code).notNull(),
   destinationAirport: varchar("destination_airport", { length: 4 }).references(() => airports.code).notNull(),
   notes: text("notes"),

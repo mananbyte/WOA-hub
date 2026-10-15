@@ -25,6 +25,7 @@ export type ListingStatus =
   | "open"
   | "claimed"
   | "in_progress"
+  | "partially_dispatched"
   | "dispatched"
   | "accepted"
   | "completed"
@@ -96,6 +97,7 @@ export interface Listing {
   visibility?: "public" | "alliance_only";
   aircraftClass: AircraftClass;
   isCargo: boolean;
+  renewal: boolean;
   originAirport: string;
   destinationAirport: string;
   notes: string | null;
@@ -151,10 +153,12 @@ export interface CreateListingInput {
   contract_type: ContractType;
   aircraft_class: AircraftClass;
   is_cargo: boolean;
+  renewal?: boolean;
   origin_airport: string;
   destination_airport: string;
   notes?: string;
   expires_in_hours?: number;
+  duration_hours?: number;
   alliance_id?: string;
   visibility?: "public" | "alliance_only";
   auto_escalate_delay_hours?: number;
@@ -272,6 +276,8 @@ export const api = {
       api.post<{ claim: ListingClaim }>(`/api/listings/${id}/claim`, {}),
     approve: (id: string) =>
       api.post<{ message: string; listing: Listing }>(`/api/listings/${id}/approve`, {}),
+    partialDispatch: (id: string) =>
+      api.post<{ success: boolean; status: string; event: string }>(`/api/listings/${id}/partial-dispatch`, {}),
     dispatch: (id: string) =>
       api.post<{ message: string; listing: Listing }>(`/api/listings/${id}/dispatch`, {}),
     accept: (id: string) =>

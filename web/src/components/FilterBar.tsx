@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Search, RotateCw, Package } from "lucide-react";
+import { Search, RotateCw, Package, PlaneTakeoff, PlaneLanding } from "lucide-react";
 import { type FilterParams, type AircraftClass } from "../api/client";
+import { WOA_AIRPORTS } from "../data/airports";
 
 interface FilterBarProps {
   filters: FilterParams;
@@ -8,20 +9,6 @@ interface FilterBarProps {
   onRefresh: () => void;
   isLoading?: boolean;
 }
-
-const AIRPORTS = [
-  "ALL AIRPORTS",
-  "PRG",
-  "INN",
-  "BRI",
-  "SAN",
-  "IAD",
-  "MCT",
-  "NGO",
-  "LEJ",
-  "SXM",
-  "HKG",
-];
 
 const CLASSES: ("ALL" | AircraftClass)[] = ["ALL", "A", "B", "C", "D", "E", "F"];
 
@@ -86,17 +73,47 @@ export const FilterBar = ({
       {/* Filter Chips Container */}
       <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
         {/* Airport Select */}
-        <select
-          value={filters.airport || "ALL AIRPORTS"}
-          onChange={(e) => handleAirportChange(e.target.value)}
-          className="h-8 px-3 rounded-full text-xs font-mono font-bold uppercase bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] focus:outline-none focus:border-[#1240C7] cursor-pointer"
-        >
-          {AIRPORTS.map((ap) => (
-            <option key={ap} value={ap}>
-              {ap}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center gap-1.5">
+          <select
+            value={filters.airport || "ALL AIRPORTS"}
+            onChange={(e) => handleAirportChange(e.target.value)}
+            className="h-8 px-3 rounded-full text-xs font-mono font-bold uppercase bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] focus:outline-none focus:border-[#1240C7] cursor-pointer"
+          >
+            <option value="ALL AIRPORTS">ALL AIRPORTS (18)</option>
+            {WOA_AIRPORTS.map((ap) => (
+              <option key={ap.code} value={ap.code}>
+                {ap.code} – {ap.name}
+              </option>
+            ))}
+          </select>
+
+          {filters.airport && (
+            <span
+              title={
+                filters.type === "incoming"
+                  ? `Filtering incoming contracts landing at ${filters.airport} (Destination)`
+                  : filters.type === "outgoing"
+                  ? `Filtering outgoing contracts departing from ${filters.airport} (Origin)`
+                  : `Filtering all contracts touching ${filters.airport} (Origin or Destination)`
+              }
+              className="h-6 px-2 rounded-full text-[10px] font-mono font-bold uppercase inline-flex items-center gap-1 bg-[#141A1F] text-white shadow-2xs"
+            >
+              {filters.type === "incoming" ? (
+                <>
+                  <PlaneLanding className="w-3 h-3 text-[#1240C7]" />
+                  DEST: {filters.airport}
+                </>
+              ) : filters.type === "outgoing" ? (
+                <>
+                  <PlaneTakeoff className="w-3 h-3 text-[#F25E24]" />
+                  ORIG: {filters.airport}
+                </>
+              ) : (
+                <>HUB: {filters.airport}</>
+              )}
+            </span>
+          )}
+        </div>
 
         {/* Aircraft Class Select */}
         <select

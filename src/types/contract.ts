@@ -4,6 +4,7 @@ export const createListingSchema = z.object({
   contract_type: z.enum(["outgoing", "incoming"] as const),
   aircraft_class: z.enum(["A", "B", "C", "D", "E", "F"] as const),
   is_cargo: z.boolean().default(false),
+  renewal: z.boolean().default(false),
   origin_airport: z.string().min(3).max(4).toUpperCase(),
   destination_airport: z.string().min(3).max(4).toUpperCase(),
   notes: z.string().max(500).optional(),

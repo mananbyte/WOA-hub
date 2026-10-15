@@ -13,22 +13,27 @@ import {
 import { eq, inArray } from "drizzle-orm";
 
 /**
- * All 13 Official Playable World of Airports (WoA) Hubs
+ * All 18 Official Playable World of Airports (WoA) Hubs
  */
 export const WOA_AIRPORTS = [
-  { code: "PRG", name: "Václav Havel Airport Prague", region: "Europe" },
   { code: "INN", name: "Innsbruck Airport", region: "Europe" },
-  { code: "BRI", name: "Bari Karol Wojtyła Airport", region: "Europe" },
-  { code: "SAN", name: "San Diego International Airport", region: "North America" },
+  { code: "BRI", name: "Bari-Karol Wojtyła Airport", region: "Europe" },
+  { code: "PRG", name: "Václav Havel Airport Prague", region: "Europe" },
   { code: "IAD", name: "Washington Dulles International Airport", region: "North America" },
-  { code: "MCT", name: "Muscat International Airport", region: "Middle East" },
   { code: "NGO", name: "Chubu Centrair International Airport", region: "Asia" },
-  { code: "LEJ", name: "Leipzig/Halle Airport (Cargo Hub)", region: "Europe" },
+  { code: "SAN", name: "San Diego International Airport", region: "North America" },
+  { code: "MCT", name: "Muscat International Airport", region: "Middle East" },
+  { code: "LEJ", name: "Leipzig-Halle International Airport", region: "Europe" },
   { code: "SXM", name: "Princess Juliana International Airport", region: "Caribbean" },
-  { code: "LHR", name: "London Heathrow Airport", region: "Europe" },
+  { code: "LHR", name: "London Heathrow International Airport", region: "Europe" },
   { code: "SYD", name: "Sydney Kingsford Smith Airport", region: "Oceania" },
-  { code: "BKK", name: "Suvarnabhumi Airport Bangkok", region: "Asia" },
+  { code: "BKK", name: "Suvarnabhumi Airport", region: "Asia" },
+  { code: "MSY", name: "Louis Armstrong New Orleans International Airport", region: "North America" },
   { code: "HKG", name: "Hong Kong International Airport", region: "Asia" },
+  { code: "ZRH", name: "Zurich Airport", region: "Europe" },
+  { code: "CNN", name: "Kannur International Airport", region: "Asia" },
+  { code: "GRU", name: "São Paulo/Guarulhos International Airport", region: "South America" },
+  { code: "SCL", name: "Arturo Merino Benítez International Airport", region: "South America" },
 ];
 
 /**
@@ -99,7 +104,7 @@ export async function runSeed() {
         set: { name: ap.name, region: ap.region },
       });
   }
-  console.log("✓ 13 playable airports successfully seeded.\n");
+  console.log(`✓ ${WOA_AIRPORTS.length} playable airports successfully seeded.\n`);
 
   // 2. Clean up any previous seed records for idempotent runs
   const seedEmails = SEED_USERS.map((u) => u.email);
@@ -125,6 +130,9 @@ export async function runSeed() {
       await db.delete(listings).where(inArray(listings.id, listingIds));
     }
 
+    // Also delete any claims or status events where user was claimant or actor
+    await db.delete(statusEvents).where(inArray(statusEvents.actorId, userIds));
+    await db.delete(listingClaims).where(inArray(listingClaims.claimantId, userIds));
     await db.delete(allianceAssignedAirports).where(inArray(allianceAssignedAirports.userId, userIds));
     await db.delete(allianceMemberships).where(inArray(allianceMemberships.userId, userIds));
     await db.delete(alliances).where(inArray(alliances.creatorId, userIds));
@@ -144,7 +152,7 @@ export async function runSeed() {
         passwordHash: defaultPasswordHash,
         discordUsername: u.discordUsername,
         woaPlayerId: u.woaPlayerId,
-        reputationScore: u.reputationScore,
+        reputationScore: String(u.reputationScore),
         totalCompletedContracts: u.totalCompletedContracts,
         totalCancelledContracts: u.totalCancelledContracts,
       })
@@ -318,6 +326,7 @@ export async function runSeed() {
       contractType: "outgoing",
       aircraftClass: "E",
       isCargo: false,
+      renewal: true,
       originAirport: "PRG",
       destinationAirport: "IAD",
       status: "open",
@@ -519,6 +528,36 @@ export async function runSeed() {
     toStatus: "open",
     eventType: "created",
     notes: "Heavy freighter scheduled in private deck",
+  });
+
+  // Guest Turnaround Request: Alex (Guest in Skyline) asks Skyline members for aircraft at Bari (BRI)
+  // Alex's airport is BRI. Captain's assigned hub is PRG.
+  // Origin: PRG, Destination: BRI. Captain sees ★ MATCHES YOUR ASSIGNED HUB!
+  const [guestListing] = await db
+    .insert(listings)
+    .values({
+      creatorId: alex.id,
+      allianceId: skyline.id,
+      contractType: "incoming",
+      aircraftClass: "C",
+      isCargo: false,
+      renewal: true,
+      originAirport: "PRG",
+      destinationAirport: "BRI",
+      status: "open",
+      visibility: "alliance_only",
+      expiresAt: future24h,
+      notes: "Guest Turnaround Request: Seeking Skyline fleet aircraft at Bari-Karol Wojtyła Airport. Quick ramp handling guaranteed!",
+    })
+    .returning();
+
+  await db.insert(statusEvents).values({
+    listingId: guestListing.id,
+    actorId: alex.id,
+    fromStatus: null,
+    toStatus: "open",
+    eventType: "created",
+    notes: "Guest fleet contract request submitted to alliance",
   });
 
   // C. Lifecycle State: CLAIMED (Awaiting Creator Approval)

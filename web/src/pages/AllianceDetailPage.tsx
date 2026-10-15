@@ -313,7 +313,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
             ) : (
               <div className="space-y-3">
                 <p className="text-xs text-[#5E6366] leading-relaxed">
-                  Join as an official member to coordinate assigned hubs, or register as a guest host for open turnaround support.
+                  Join as an official member to coordinate assigned hubs, or join as a <strong>Guest</strong> to request alliance aircraft to your airport for turnaround handling.
                 </p>
 
                 <button
@@ -324,7 +324,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
                   className="w-full h-11 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition cursor-pointer flex items-center justify-center gap-2 shadow-xs"
                 >
                   <Users className="w-4 h-4 text-white" />
-                  <span>APPLY TO JOIN ALLIANCE</span>
+                  <span>APPLY TO JOIN AS MEMBER</span>
                 </button>
 
                 <button
@@ -336,10 +336,10 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
                   className="w-full h-10 rounded-full bg-[#FFFFFA] border border-[#C9C7BA] text-[#141A1F] text-xs font-mono font-bold hover:bg-[#F0EBDE] transition cursor-pointer flex items-center justify-center gap-2 shadow-2xs"
                 >
                   <UserCheck className="w-3.5 h-3.5 text-[#1240C7]" />
-                  <span>REGISTER AS GUEST HOST</span>
+                  <span>JOIN AS ALLIANCE GUEST (REQUEST AIRCRAFT)</span>
                 </button>
                 <p className="text-[10px] text-[#5E6366] text-center">
-                  * Guest hosts can join unlimited alliances simultaneously.
+                  * Guests can request planes from alliance fleets to their airports. Unlimited alliance guest affiliations allowed.
                 </p>
               </div>
             )}
@@ -347,7 +347,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
         </div>
       </div>
 
-      {/* 10-Hub Coverage Overview Dossier */}
+      {/* 18-Hub Coverage Overview Dossier */}
       <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
@@ -358,10 +358,10 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
               </span>
             </div>
             <h2 className="text-2xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
-              10-HUB COVERAGE MATRIX
+              18-HUB ROUTE & TURNAROUND MATRIX
             </h2>
             <p className="text-xs text-[#5E6366] mt-0.5">
-              Airport bases staffed by alliance pilots for incoming fleet turnarounds.
+              Airport bases staffed by alliance pilots across all 18 playable World of Airports hubs.
             </p>
           </div>
 
@@ -380,7 +380,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
 
         {/* Hubs Grid */}
         {matrixData && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {matrixData.matrix.map((hub) => {
               const isCovered = hub.pilots.length > 0;
               return (
