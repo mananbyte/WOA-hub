@@ -13,10 +13,22 @@ export const boss = new PgBoss({
 
 export let isWorkerRunning = false;
 
+boss.on("error", (err) => {
+  console.error("pg-boss worker error:", err);
+});
+
 export async function startWorkers() {
   await boss.start();
   isWorkerRunning = true;
   console.log("pg-boss background worker service started.");
+
+  // Ensure queues exist in pg-boss v12 before starting workers
+  try {
+    await boss.createQueue("escalate-alliance-listing");
+  } catch {}
+  try {
+    await boss.createQueue("cleanup-stale-listings");
+  } catch {}
 
   // Handler: Delayed private listing escalation to public board
   await boss.work("escalate-alliance-listing", async ([job]) => {
