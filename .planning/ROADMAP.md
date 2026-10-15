@@ -7,11 +7,21 @@ WoA Contract Hub is built as a modular monolith providing a unified contract mar
 ## Phases
 
 - [x] **Phase 1: Core Foundation & Marketplace Engine** - Database models, authentication, contract posting, concurrency-safe claiming, and bilateral status state machine.
-- [ ] **Phase 2: React Web Marketplace & User Experience** - Responsive web SPA, real-time filtering board, contract detail views, and user dashboards.
+- [x] **Phase 2: React Web Marketplace & User Experience** - Responsive web SPA, real-time filtering board, contract detail views, and user dashboards.
 - [ ] **Phase 3: Alliance Spaces & Scoped Query Engine** - Group management, RBAC, private listings, assigned-airport hubs, and background escalation workers.
 - [ ] **Phase 4: Discord Bot Integration, Notifications & Trust System** - discord.js bot, DM alerts, slash commands, channel feeds, reputation ratings, and moderation tools.
 
-## Phase Details
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 → 2 → 3 → 4
+
+| Phase | Plans Complete | Status | Completed |
+|---|---|---|---|
+| 1. Core Foundation & Marketplace Engine | 3/3 | Complete | 2026-10-15 |
+| 2. React Web Marketplace & User Experience | 2/2 | Complete | 2026-10-15 |
+| 3. Alliance Spaces & Scoped Query Engine | 0/2 | Ready | - |
+| 4. Discord Bot Integration, Notifications & Trust System | 0/2 | Not started | - |
 
 ### Phase 1: Core Foundation & Marketplace Engine
 **Goal**: Deliver the relational database schema, TypeScript domain services, user authentication, Outgoing/Incoming contract creation, concurrency-safe single-claim locking, and bilateral status progression.
