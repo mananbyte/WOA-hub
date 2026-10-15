@@ -19,10 +19,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **MKT-01**: Player can post an Outgoing contract listing (available aircraft, aircraft class A–F, passenger/cargo, preferred destination airport(s), availability timeframe, notes)
 - [x] **MKT-02**: Player can post an Incoming contract request (target airport operated by player, desired aircraft class, availability timeframe, notes)
-- [ ] **MKT-03**: Player can browse an interactive marketplace feed showing all active open contracts
-- [ ] **MKT-04**: Player can filter listings in real time by airport code (IATA/ICAO), aircraft class (A–F), contract type (outgoing/incoming), and cargo vs passenger
-- [ ] **MKT-05**: Player can search listings by keyword or airport name
-- [ ] **MKT-06**: Player can view detailed contract view with full terms, publisher stats, and status history
+- [x] **MKT-03**: Player can browse an interactive marketplace feed showing all active open contracts
+- [x] **MKT-04**: Player can filter listings in real time by airport code (IATA/ICAO), aircraft class (A–F), contract type (outgoing/incoming), and cargo vs passenger
+- [x] **MKT-05**: Player can search listings by keyword or airport name
+- [x] **MKT-06**: Player can view detailed contract view with full terms, publisher stats, and status history
 
 ### Contract Claim & Bilateral Lifecycle
 
@@ -57,7 +57,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Reputation, Trust & Safety
 
-- [ ] **REPU-01**: System calculates and displays a Reputation Score on user profiles based on contract completion rate and total completed flights
+- [x] **REPU-01**: System calculates and displays a Reputation Score on user profiles based on contract completion rate and total completed flights
 - [ ] **REPU-02**: Both parties can submit a 1-click rating (thumbs up / thumbs down + optional feedback note) upon contract completion
 - [ ] **REPU-03**: Users can report a non-delivered or fraudulent contract, which logs an audit entry and flags the counterparty
 - [ ] **REPU-04**: System enforces daily contract creation rate limits (e.g., max 5 per day for new accounts) to prevent spam flooding
