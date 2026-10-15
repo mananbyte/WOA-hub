@@ -9,16 +9,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication & Profiles
 
-- [ ] **AUTH-01**: User can sign up with email and password
-- [ ] **AUTH-02**: User must provide their Discord username during registration (stored for bot communications)
-- [ ] **AUTH-03**: User can log in with email/password and retain a persistent authenticated session
-- [ ] **AUTH-04**: User can set and edit their WoA in-game Player ID on their profile
-- [ ] **AUTH-05**: User can view other players' profiles with their WoA ID, Discord username, and activity summary
+- [x] **AUTH-01**: User can sign up with email and password
+- [x] **AUTH-02**: User must provide their Discord username during registration (stored for bot communications)
+- [x] **AUTH-03**: User can log in with email/password and retain a persistent authenticated session
+- [x] **AUTH-04**: User can set and edit their WoA in-game Player ID on their profile
+- [x] **AUTH-05**: User can view other players' profiles with their WoA ID, Discord username, and activity summary
 
 ### Contract Marketplace (Posting & Discovery)
 
-- [ ] **MKT-01**: Player can post an Outgoing contract listing (available aircraft, aircraft class A–F, passenger/cargo, preferred destination airport(s), availability timeframe, notes)
-- [ ] **MKT-02**: Player can post an Incoming contract request (target airport operated by player, desired aircraft class, availability timeframe, notes)
+- [x] **MKT-01**: Player can post an Outgoing contract listing (available aircraft, aircraft class A–F, passenger/cargo, preferred destination airport(s), availability timeframe, notes)
+- [x] **MKT-02**: Player can post an Incoming contract request (target airport operated by player, desired aircraft class, availability timeframe, notes)
 - [ ] **MKT-03**: Player can browse an interactive marketplace feed showing all active open contracts
 - [ ] **MKT-04**: Player can filter listings in real time by airport code (IATA/ICAO), aircraft class (A–F), contract type (outgoing/incoming), and cargo vs passenger
 - [ ] **MKT-05**: Player can search listings by keyword or airport name
@@ -26,13 +26,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Contract Claim & Bilateral Lifecycle
 
-- [ ] **STAT-01**: Counterparty player can apply to or claim an open contract listing
-- [ ] **STAT-02**: System enforces concurrency protection so that only one claim can be active per listing slot
-- [ ] **STAT-03**: Listing creator can approve or accept the claimant's request
-- [ ] **STAT-04**: Source player can mark the contract as "Dispatched in WoA" once they have sent the aircraft in-game
-- [ ] **STAT-05**: Destination player can mark the contract as "Accepted in WoA" once they have received and accepted the contract in-game
-- [ ] **STAT-06**: Contract reaches "Completed" state upon bilateral confirmation from both parties
-- [ ] **STAT-07**: Either party can cancel an active contract with a mandatory reason before completion
+- [x] **STAT-01**: Counterparty player can apply to or claim an open contract listing
+- [x] **STAT-02**: System enforces concurrency protection so that only one claim can be active per listing slot
+- [x] **STAT-03**: Listing creator can approve or accept the claimant's request
+- [x] **STAT-04**: Source player can mark the contract as "Dispatched in WoA" once they have sent the aircraft in-game
+- [x] **STAT-05**: Destination player can mark the contract as "Accepted in WoA" once they have received and accepted the contract in-game
+- [x] **STAT-06**: Contract reaches "Completed" state upon bilateral confirmation from both parties
+- [x] **STAT-07**: Either party can cancel an active contract with a mandatory reason before completion
 - [ ] **STAT-08**: Background worker automatically expires stale unclaimed listings after 24 hours and unconfirmed claims after 4 hours
 
 ### Alliance Spaces & Multi-Model Workspaces
@@ -95,28 +95,26 @@ Deferred to future releases.
 
 ## Traceability
 
-Which phases cover which requirements. (Updated during roadmap creation)
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| AUTH-05 | Phase 1 | Pending |
-| MKT-01 | Phase 1 | Pending |
-| MKT-02 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
+| AUTH-05 | Phase 1 | Complete |
+| MKT-01 | Phase 1 | Complete |
+| MKT-02 | Phase 1 | Complete |
 | MKT-03 | Phase 2 | Pending |
 | MKT-04 | Phase 2 | Pending |
 | MKT-05 | Phase 2 | Pending |
 | MKT-06 | Phase 2 | Pending |
-| STAT-01 | Phase 1 | Pending |
-| STAT-02 | Phase 1 | Pending |
-| STAT-03 | Phase 1 | Pending |
-| STAT-04 | Phase 1 | Pending |
-| STAT-05 | Phase 1 | Pending |
-| STAT-06 | Phase 1 | Pending |
-| STAT-07 | Phase 1 | Pending |
+| STAT-01 | Phase 1 | Complete |
+| STAT-02 | Phase 1 | Complete |
+| STAT-03 | Phase 1 | Complete |
+| STAT-04 | Phase 1 | Complete |
+| STAT-05 | Phase 1 | Complete |
+| STAT-06 | Phase 1 | Complete |
+| STAT-07 | Phase 1 | Complete |
 | STAT-08 | Phase 3 | Pending |
 | ALNC-01 | Phase 3 | Pending |
 | ALNC-02 | Phase 3 | Pending |
@@ -140,9 +138,9 @@ Which phases cover which requirements. (Updated during roadmap creation)
 
 **Coverage:**
 - v1 requirements: 35 total
-- Mapped to phases: 35
-- Unmapped: 0 ✓
+- Complete: 14 / 35 (40%)
+- Pending: 21 / 35 (60%)
 
 ---
 *Requirements defined: 2026-10-14*  
-*Last updated: 2026-10-14 after initial definition*
+*Last updated: 2026-10-15 after Phase 1 completion*

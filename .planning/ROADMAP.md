@@ -6,7 +6,7 @@ WoA Contract Hub is built as a modular monolith providing a unified contract mar
 
 ## Phases
 
-- [ ] **Phase 1: Core Foundation & Marketplace Engine** - Database models, authentication, contract posting, concurrency-safe claiming, and bilateral status state machine.
+- [x] **Phase 1: Core Foundation & Marketplace Engine** - Database models, authentication, contract posting, concurrency-safe claiming, and bilateral status state machine.
 - [ ] **Phase 2: React Web Marketplace & User Experience** - Responsive web SPA, real-time filtering board, contract detail views, and user dashboards.
 - [ ] **Phase 3: Alliance Spaces & Scoped Query Engine** - Group management, RBAC, private listings, assigned-airport hubs, and background escalation workers.
 - [ ] **Phase 4: Discord Bot Integration, Notifications & Trust System** - discord.js bot, DM alerts, slash commands, channel feeds, reputation ratings, and moderation tools.
@@ -14,22 +14,22 @@ WoA Contract Hub is built as a modular monolith providing a unified contract mar
 ## Phase Details
 
 ### Phase 1: Core Foundation & Marketplace Engine
-**Goal**: Deliver the relational database schema, TypeScript domain services, user authentication, Outgoing/Incoming contract creation, concurrency-safe single-claim engine, and bilateral status progression.
+**Goal**: Deliver the relational database schema, TypeScript domain services, user authentication, Outgoing/Incoming contract creation, concurrency-safe single-claim locking, and bilateral status progression.
 **Mode**: mvp
 **Depends on**: Nothing (first phase)
 **Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, MKT-01, MKT-02, STAT-01, STAT-02, STAT-03, STAT-04, STAT-05, STAT-06, STAT-07
 **UI hint**: no
 **Success Criteria** (what must be TRUE):
-  1. User can register with email, password, and Discord username, log in, and edit their WoA In-Game Player ID.
-  2. Player can post Outgoing contract listings (aircraft available) and Incoming contract requests (aircraft needed).
-  3. Concurrent claims on a single listing are serialized with row-level locks so only one counterparty claim can be active.
-  4. Both parties can advance contract through in-game dispatch, in-game acceptance, and verified complete status.
-**Plans**: 3 plans
+  1. User can register with email, password, and Discord username, log in, and edit their WoA In-Game Player ID. [VERIFIED]
+  2. Player can post Outgoing contract listings (aircraft available) and Incoming contract requests (aircraft needed). [VERIFIED]
+  3. Concurrent claims on a single listing are serialized with row-level locks so only one counterparty claim can be active. [VERIFIED]
+  4. Both parties can advance contract through in-game dispatch, in-game acceptance, and verified complete status. [VERIFIED]
+**Plans**: 3 plans (3 completed)
 
 Plans:
-- [ ] 01-01: Setup Node.js/TypeScript project, PostgreSQL schema, Drizzle ORM models, and seed airport codes.
-- [ ] 01-02: Implement email/password authentication, JWT session handling, and user profile management with Discord handle and WoA ID.
-- [ ] 01-03: Implement contract domain engine: Outgoing/Incoming posting, transactional claim locking (`SELECT FOR UPDATE`), and bilateral status state machine.
+- [x] 01-01: Setup Node.js/TypeScript project, PostgreSQL schema, Drizzle ORM models, and seed airport codes.
+- [x] 01-02: Implement email/password authentication, JWT session handling, and user profile management with Discord handle and WoA ID.
+- [x] 01-03: Implement contract domain engine: Outgoing/Incoming posting, transactional claim locking (`SELECT FOR UPDATE`), and bilateral status state machine.
 
 ### Phase 2: React Web Marketplace & User Experience
 **Goal**: Build a responsive React SPA frontend providing an interactive marketplace board, real-time filtering, posting forms, and contract tracking dashboards to drive website traffic.
@@ -58,7 +58,7 @@ Plans:
   1. Alliance leaders can create a group with custom airport model (assigned, flexible, hybrid) and invite members via link.
   2. Four-tier RBAC (Owner, Admin, Member, Visitor) governs member permissions and workspace administration.
   3. Members can post `alliance_only` listings that are strictly hidden from non-members in database queries.
-  4. Background worker (`pg-boss`) automatically escalates stale private listings to public marketplace after configured delay and archives expired listings.
+  4. Background worker (`pg-boss`) automatically escalates unclaimed private listings to public marketplace after configured delay and archives expired listings.
 **Plans**: 2 plans
 
 Plans:
@@ -89,10 +89,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Foundation & Marketplace Engine | 0/3 | Not started | - |
+| 1. Core Foundation & Marketplace Engine | 3/3 | Complete | 2026-10-15 |
 | 2. React Web Marketplace & User Experience | 0/2 | Not started | - |
 | 3. Alliance Spaces & Scoped Query Engine | 0/2 | Not started | - |
 | 4. Discord Bot Integration, Notifications & Trust System | 0/2 | Not started | - |
 
 ---
-*Roadmap created: 2026-10-14*
+*Roadmap created: 2026-10-14*  
+*Last updated: 2026-10-15 (Phase 1 Shipped)*
