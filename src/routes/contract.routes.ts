@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { ContractService } from "../services/contract.service.js";
-import { requireAuth } from "../middleware/auth.js";
+import { requireAuth, optionalAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import {
   createListingSchema,
@@ -26,7 +26,7 @@ contractRouter.post(
 );
 
 // Get listings with filters
-contractRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
+contractRouter.get("/", optionalAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const filters = {
       airport: req.query.airport as string | undefined,
@@ -34,6 +34,8 @@ contractRouter.get("/", async (req: Request, res: Response, next: NextFunction) 
       contractType: req.query.type as string | undefined,
       isCargo: req.query.cargo !== undefined ? req.query.cargo === "true" : undefined,
       status: req.query.status as string | undefined,
+      allianceId: req.query.alliance_id as string | undefined,
+      currentUserId: req.user?.userId,
     };
     const listings = await ContractService.getListings(filters);
     res.status(200).json({ listings });
@@ -43,10 +45,10 @@ contractRouter.get("/", async (req: Request, res: Response, next: NextFunction) 
 });
 
 // Get listing details with claims and audit events
-contractRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+contractRouter.get("/:id", optionalAuth, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const details = await ContractService.getListingById(id);
+    const details = await ContractService.getListingById(id, req.user?.userId);
     res.status(200).json(details);
   } catch (error) {
     next(error);

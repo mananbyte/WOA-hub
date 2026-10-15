@@ -34,6 +34,20 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   }
 }
 
+export function optionalAuth(req: Request, res: Response, next: NextFunction): void {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+    try {
+      const payload = jwt.verify(token, JWT_SECRET) as AuthUser;
+      req.user = payload;
+    } catch {
+      // Ignore invalid or expired token for optional auth
+    }
+  }
+  next();
+}
+
 export function generateToken(user: AuthUser): string {
   return jwt.sign(
     {
@@ -45,3 +59,4 @@ export function generateToken(user: AuthUser): string {
     { expiresIn: "7d" }
   );
 }
+

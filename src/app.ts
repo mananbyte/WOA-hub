@@ -3,6 +3,7 @@ import cors from "cors";
 import { authRouter } from "./routes/auth.routes.js";
 import { userRouter } from "./routes/user.routes.js";
 import { contractRouter } from "./routes/contract.routes.js";
+import { allianceRouter } from "./routes/alliance.routes.js";
 
 export const app = express();
 
@@ -16,6 +17,7 @@ app.get("/health", (req: Request, res: Response) => {
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/listings", contractRouter);
+app.use("/api/alliances", allianceRouter);
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

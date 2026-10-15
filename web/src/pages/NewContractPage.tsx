@@ -4,7 +4,10 @@ import { api, type ContractType, type AircraftClass } from "../api/client";
 import { Plane, ArrowRight, ArrowLeft, CheckCircle2, Package, Clock, AlertCircle } from "lucide-react";
 
 interface NewContractPageProps {
-  onNavigate: (tab: "marketplace" | "new-contract" | "dashboard" | "profile", param?: string) => void;
+  onNavigate: (
+    tab: "marketplace" | "new-contract" | "dashboard" | "profile" | "alliances",
+    param?: string
+  ) => void;
 }
 
 const AIRPORTS = [

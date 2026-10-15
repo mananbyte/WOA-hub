@@ -8,15 +8,20 @@ import { NewContractPage } from "./pages/NewContractPage";
 import { ContractDetailPage } from "./pages/ContractDetailPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { AlliancesDirectoryPage } from "./pages/AlliancesDirectoryPage";
+import { AllianceDetailPage } from "./pages/AllianceDetailPage";
+import { AllianceOperationsDeckPage } from "./pages/AllianceOperationsDeckPage";
 
 const queryClient = new QueryClient();
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<"marketplace" | "new-contract" | "dashboard" | "profile">("marketplace");
+  const [activeTab, setActiveTab] = useState<
+    "marketplace" | "new-contract" | "dashboard" | "profile" | "alliances"
+  >("marketplace");
   const [activeParam, setActiveParam] = useState<string | undefined>(undefined);
 
   const handleNavigate = (
-    tab: "marketplace" | "new-contract" | "dashboard" | "profile",
+    tab: "marketplace" | "new-contract" | "dashboard" | "profile" | "alliances",
     param?: string
   ) => {
     setActiveTab(tab);
@@ -49,6 +54,19 @@ export function App() {
 
             {activeTab === "profile" && (
               <ProfilePage userId={activeParam} onNavigate={handleNavigate} />
+            )}
+
+            {activeTab === "alliances" && (
+              !activeParam ? (
+                <AlliancesDirectoryPage onNavigate={handleNavigate} />
+              ) : activeParam.endsWith("/deck") ? (
+                <AllianceOperationsDeckPage
+                  slug={activeParam.replace(/\/deck$/, "")}
+                  onNavigate={handleNavigate}
+                />
+              ) : (
+                <AllianceDetailPage slug={activeParam} onNavigate={handleNavigate} />
+              )
             )}
           </main>
 

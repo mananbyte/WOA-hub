@@ -33,18 +33,18 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **STAT-05**: Destination player can mark the contract as "Accepted in WoA" once they have received and accepted the contract in-game
 - [x] **STAT-06**: Contract reaches "Completed" state upon bilateral confirmation from both parties
 - [x] **STAT-07**: Either party can cancel an active contract with a mandatory reason before completion
-- [ ] **STAT-08**: Background worker automatically expires stale unclaimed listings after 24 hours and unconfirmed claims after 4 hours
+- [x] **STAT-08**: Background worker automatically expires stale unclaimed listings after 24 hours and unconfirmed claims after 4 hours
 
 ### Alliance Spaces & Multi-Model Workspaces
 
-- [ ] **ALNC-01**: Alliance leader can register a new alliance group (name, slug, description, airport model: assigned/flexible/hybrid, privacy: open/approval/invite-only)
-- [ ] **ALNC-02**: Alliance has a dedicated public profile page (`/alliances/:slug`) and private member workspace
-- [ ] **ALNC-03**: Group leader/admins can invite members via shareable link or approve incoming join requests
-- [ ] **ALNC-04**: System enforces 4-tier Role-Based Access Control: Owner, Admin, Member, Visitor
-- [ ] **ALNC-05**: Alliance members can post listings scoped as `alliance_only` visible solely to group members
-- [ ] **ALNC-06**: For Assigned-Airport alliances, members can register their assigned airport and filter for designated route partners
-- [ ] **ALNC-07**: Alliance leader can configure optional escalation rules: private listings automatically escalate to the public marketplace after a set delay (e.g. 2 hours)
-- [ ] **ALNC-08**: Alliance dashboard displays group activity metrics: active listings, unfilled requests, member participation, and route coverage
+- [x] **ALNC-01**: Alliance leader can register a new alliance group (name, slug, description, airport model: assigned/flexible/hybrid, privacy: open/approval/invite-only)
+- [x] **ALNC-02**: Alliance has a dedicated public profile page (`/alliances/:slug`) and private member workspace
+- [x] **ALNC-03**: Group leader/admins can invite members via shareable link or approve incoming join requests
+- [x] **ALNC-04**: System enforces 4-tier Role-Based Access Control: Owner, Admin, Member, Visitor
+- [x] **ALNC-05**: Alliance members can post listings scoped as `alliance_only` visible solely to group members
+- [x] **ALNC-06**: For Assigned-Airport alliances, members can register their assigned airport and filter for designated route partners
+- [x] **ALNC-07**: Alliance leader can configure optional escalation rules: private listings automatically escalate to the public marketplace after a set delay (e.g. 2 hours)
+- [x] **ALNC-08**: Alliance dashboard displays group activity metrics: active listings, unfilled requests, member participation, and route coverage
 
 ### Discord Bot & Notifications
 
@@ -104,10 +104,10 @@ Deferred to future releases.
 | AUTH-05 | Phase 1 | Complete |
 | MKT-01 | Phase 1 | Complete |
 | MKT-02 | Phase 1 | Complete |
-| MKT-03 | Phase 2 | Pending |
-| MKT-04 | Phase 2 | Pending |
-| MKT-05 | Phase 2 | Pending |
-| MKT-06 | Phase 2 | Pending |
+| MKT-03 | Phase 2 | Complete |
+| MKT-04 | Phase 2 | Complete |
+| MKT-05 | Phase 2 | Complete |
+| MKT-06 | Phase 2 | Complete |
 | STAT-01 | Phase 1 | Complete |
 | STAT-02 | Phase 1 | Complete |
 | STAT-03 | Phase 1 | Complete |
@@ -115,15 +115,15 @@ Deferred to future releases.
 | STAT-05 | Phase 1 | Complete |
 | STAT-06 | Phase 1 | Complete |
 | STAT-07 | Phase 1 | Complete |
-| STAT-08 | Phase 3 | Pending |
-| ALNC-01 | Phase 3 | Pending |
-| ALNC-02 | Phase 3 | Pending |
-| ALNC-03 | Phase 3 | Pending |
-| ALNC-04 | Phase 3 | Pending |
-| ALNC-05 | Phase 3 | Pending |
-| ALNC-06 | Phase 3 | Pending |
-| ALNC-07 | Phase 3 | Pending |
-| ALNC-08 | Phase 3 | Pending |
+| STAT-08 | Phase 3 | Complete |
+| ALNC-01 | Phase 3 | Complete |
+| ALNC-02 | Phase 3 | Complete |
+| ALNC-03 | Phase 3 | Complete |
+| ALNC-04 | Phase 3 | Complete |
+| ALNC-05 | Phase 3 | Complete |
+| ALNC-06 | Phase 3 | Complete |
+| ALNC-07 | Phase 3 | Complete |
+| ALNC-08 | Phase 3 | Complete |
 | DISC-01 | Phase 4 | Pending |
 | DISC-02 | Phase 4 | Pending |
 | DISC-03 | Phase 4 | Pending |

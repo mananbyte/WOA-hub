@@ -3,8 +3,11 @@ import { useAuth } from "../context/AuthContext";
 import { Plane, Plus, User as UserIcon, LogOut, ShieldCheck, ChevronDown } from "lucide-react";
 
 interface NavbarProps {
-  activeTab: "marketplace" | "new-contract" | "dashboard" | "profile";
-  onNavigate: (tab: "marketplace" | "new-contract" | "dashboard" | "profile", param?: string) => void;
+  activeTab: "marketplace" | "new-contract" | "dashboard" | "profile" | "alliances";
+  onNavigate: (
+    tab: "marketplace" | "new-contract" | "dashboard" | "profile" | "alliances",
+    param?: string
+  ) => void;
 }
 
 export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
@@ -48,6 +51,16 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
             }`}
           >
             MARKETPLACE
+          </button>
+          <button
+            onClick={() => onNavigate("alliances")}
+            className={`px-5 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition cursor-pointer ${
+              activeTab === "alliances"
+                ? "bg-[#141A1F] text-white shadow-xs"
+                : "text-[#5E6366] hover:text-[#141A1F] hover:bg-[#F0EBDE]"
+            }`}
+          >
+            ALLIANCES
           </button>
           <button
             onClick={() => {

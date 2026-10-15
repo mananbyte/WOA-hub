@@ -31,16 +31,77 @@ export type ListingStatus =
   | "cancelled"
   | "expired";
 
+export type AirportModel = "assigned" | "flexible" | "hybrid";
+export type JoinPolicy = "open" | "approval" | "invite_only";
+export type AllianceRole = "owner" | "admin" | "member" | "guest";
+export type MembershipStatus = "active" | "pending" | "rejected";
+
+export interface Alliance {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  logoUrl: string | null;
+  discordUrl: string | null;
+  airportModel: AirportModel;
+  joinPolicy: JoinPolicy;
+  maxEscalationDelayHours: number;
+  activeMembersCount?: number;
+  createdAt: string;
+  creator?: {
+    id: string;
+    discordUsername: string;
+    reputationScore?: number;
+  };
+}
+
+export interface AllianceMembership {
+  id: string;
+  allianceId: string;
+  userId: string;
+  role: AllianceRole;
+  status: MembershipStatus;
+  applicationNote: string | null;
+  createdAt: string;
+}
+
+export interface HubCoverage {
+  code: string;
+  name: string;
+  region: string;
+  pilots: {
+    id: string;
+    discordUsername: string;
+    woaPlayerId: string | null;
+    reputationScore: number;
+  }[];
+  outgoingCount: number;
+  incomingNeedCount: number;
+  status: "covered" | "unassigned" | "bottleneck";
+  hasGap: boolean;
+}
+
+export interface RouteMatrixData {
+  alliance: Alliance;
+  matrix: HubCoverage[];
+  totalCoveredHubs: number;
+  totalOfficialHubs: number;
+  uncoveredGaps: string[];
+}
+
 export interface Listing {
   id: string;
   contractType: ContractType;
   status: ListingStatus;
+  visibility?: "public" | "alliance_only";
   aircraftClass: AircraftClass;
   isCargo: boolean;
   originAirport: string;
   destinationAirport: string;
   notes: string | null;
   expiresAt: string;
+  autoEscalateDelayHours?: number;
+  escalatedAt?: string;
   createdAt: string;
   creator: {
     id: string;
@@ -48,6 +109,12 @@ export interface Listing {
     woaPlayerId: string | null;
     reputationScore: number;
   };
+  partnerPriority?: boolean;
+  alliance?: {
+    id: string;
+    name: string;
+    slug: string;
+  } | null;
 }
 
 export interface ListingClaim {
@@ -88,6 +155,9 @@ export interface CreateListingInput {
   destination_airport: string;
   notes?: string;
   expires_in_hours?: number;
+  alliance_id?: string;
+  visibility?: "public" | "alliance_only";
+  auto_escalate_delay_hours?: number;
 }
 
 export interface FilterParams {
@@ -96,6 +166,7 @@ export interface FilterParams {
   type?: string;
   cargo?: boolean;
   status?: string;
+  alliance_id?: string;
 }
 
 const TOKEN_KEY = "woa_auth_token";
@@ -190,6 +261,7 @@ export const api = {
       if (filters.type) params.append("type", filters.type);
       if (filters.cargo !== undefined) params.append("cargo", String(filters.cargo));
       if (filters.status) params.append("status", filters.status);
+      if (filters.alliance_id) params.append("alliance_id", filters.alliance_id);
       const query = params.toString();
       return api.get<{ listings: Listing[] }>(`/api/listings${query ? `?${query}` : ""}`);
     },
@@ -207,4 +279,68 @@ export const api = {
     cancel: (id: string, reason: string) =>
       api.post<{ message: string; listing: Listing }>(`/api/listings/${id}/cancel`, { reason }),
   },
+
+  alliances: {
+    list: (filters: { model?: string; search?: string } = {}) => {
+      const params = new URLSearchParams();
+      if (filters.model) params.append("model", filters.model);
+      if (filters.search) params.append("search", filters.search);
+      const query = params.toString();
+      return api.get<{ alliances: Alliance[] }>(`/api/alliances${query ? `?${query}` : ""}`);
+    },
+    get: (slug: string) =>
+      api.get<{
+        alliance: Alliance;
+        activeMembersCount: number;
+        userMembership: { role: AllianceRole; status: MembershipStatus } | null;
+      }>(`/api/alliances/${slug}`),
+    create: (data: {
+      name: string;
+      slug: string;
+      description?: string;
+      logo_url?: string;
+      discord_url?: string;
+      airport_model: AirportModel;
+      join_policy: JoinPolicy;
+      max_escalation_delay_hours?: number;
+    }) => api.post<{ alliance: Alliance }>("/api/alliances", data),
+    join: (slug: string, note?: string, inviteCode?: string) =>
+      api.post<{ membership: AllianceMembership }>(`/api/alliances/${slug}/join`, {
+        application_note: note,
+        invite_code: inviteCode,
+      }),
+    registerGuest: (slug: string) =>
+      api.post<{ membership: AllianceMembership }>(`/api/alliances/${slug}/guest`, {}),
+    getMembers: (slug: string) =>
+      api.get<{ members: any[] }>(`/api/alliances/${slug}/members`),
+    reviewMember: (slug: string, userId: string, status: "active" | "rejected", role?: AllianceRole) =>
+      api.patch<{ membership: AllianceMembership }>(`/api/alliances/${slug}/members/${userId}`, {
+        status,
+        role,
+      }),
+    assignAirport: (slug: string, airportCode: string, userId?: string) =>
+      api.post<{ assignment: any }>(`/api/alliances/${slug}/airports`, {
+        airport_code: airportCode,
+        user_id: userId,
+      }),
+    removeAirport: (slug: string, airportCode: string, userId?: string) => {
+      const q = userId ? `?user_id=${userId}` : "";
+      return api.del<{ message: string }>(`/api/alliances/${slug}/airports/${airportCode}${q}`);
+    },
+    getMatrix: (slug: string) =>
+      api.get<RouteMatrixData>(`/api/alliances/${slug}/matrix`),
+    update: (
+      slug: string,
+      data: Partial<{
+        name: string;
+        description: string;
+        logo_url: string;
+        discord_url: string;
+        airport_model: AirportModel;
+        join_policy: JoinPolicy;
+        max_escalation_delay_hours: number;
+      }>
+    ) => api.patch<{ alliance: Alliance }>(`/api/alliances/${slug}`, data),
+  },
 };
+

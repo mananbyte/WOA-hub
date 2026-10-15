@@ -1,7 +1,17 @@
-import { eq, and, sql, desc } from "drizzle-orm";
+import { eq, and, sql, desc, inArray, lte } from "drizzle-orm";
 import { db } from "../db/index.js";
-import { listings, listingClaims, statusEvents, airports, users } from "../db/schema.js";
-import { CreateListingInput } from "../types/contract.js";
+import {
+  listings,
+  listingClaims,
+  statusEvents,
+  airports,
+  users,
+  alliances,
+  allianceMemberships,
+  allianceAssignedAirports,
+} from "../db/schema.js";
+import type { CreateListingInput } from "../types/contract.js";
+import { boss, isWorkerRunning } from "../jobs/worker.js";
 
 export class ContractService {
   static async createListing(creatorId: string, input: CreateListingInput) {
@@ -20,12 +30,36 @@ export class ContractService {
       throw err;
     }
 
+    if (input.visibility === "alliance_only") {
+      if (!input.alliance_id) {
+        const err = new Error("Alliance ID is required for alliance-only contracts.");
+        (err as any).statusCode = 400;
+        throw err;
+      }
+      const [m] = await db
+        .select()
+        .from(allianceMemberships)
+        .where(
+          and(
+            eq(allianceMemberships.allianceId, input.alliance_id),
+            eq(allianceMemberships.userId, creatorId),
+            eq(allianceMemberships.status, "active")
+          )
+        );
+      if (!m) {
+        const err = new Error("You must be an active member or guest of this alliance to post an alliance-scoped contract.");
+        (err as any).statusCode = 403;
+        throw err;
+      }
+    }
+
     const expiresAt = new Date(Date.now() + input.duration_hours * 60 * 60 * 1000);
 
     const [newListing] = await db
       .insert(listings)
       .values({
         creatorId,
+        allianceId: input.alliance_id || null,
         contractType: input.contract_type,
         aircraftClass: input.aircraft_class,
         isCargo: input.is_cargo,
@@ -34,6 +68,8 @@ export class ContractService {
         notes: input.notes || null,
         expiresAt,
         status: "open",
+        visibility: input.visibility || "public",
+        autoEscalateDelayHours: input.auto_escalate_delay_hours || null,
       })
       .returning();
 
@@ -44,8 +80,21 @@ export class ContractService {
       fromStatus: null,
       toStatus: "open",
       eventType: "created",
-      notes: "Contract listing created",
+      notes: input.visibility === "alliance_only" ? "Alliance contract listing created" : "Contract listing created",
     });
+
+    // Schedule delayed escalation if alliance_only and autoEscalateDelayHours set
+    if (isWorkerRunning && input.visibility === "alliance_only" && input.auto_escalate_delay_hours) {
+      try {
+        await boss.send(
+          "escalate-alliance-listing",
+          { listingId: newListing.id },
+          { startAfter: input.auto_escalate_delay_hours * 3600 }
+        );
+      } catch (err) {
+        console.warn("Could not schedule auto-escalation job:", err);
+      }
+    }
 
     return newListing;
   }
@@ -56,6 +105,8 @@ export class ContractService {
     contractType?: string;
     isCargo?: boolean;
     status?: string;
+    allianceId?: string;
+    currentUserId?: string;
   }) {
     const conditions = [];
 
@@ -84,17 +135,61 @@ export class ContractService {
       conditions.push(eq(listings.isCargo, filters.isCargo));
     }
 
-    const query = db
+    // Scoping rules (ALNC-05, D-05)
+    let userAssignedAirports: string[] = [];
+    if (filters.allianceId) {
+      // Querying specifically inside an alliance workspace
+      conditions.push(eq(listings.allianceId, filters.allianceId));
+      let isAllianceMember = false;
+      if (filters.currentUserId) {
+        const [m] = await db
+          .select()
+          .from(allianceMemberships)
+          .where(
+            and(
+              eq(allianceMemberships.allianceId, filters.allianceId),
+              eq(allianceMemberships.userId, filters.currentUserId),
+              eq(allianceMemberships.status, "active")
+            )
+          );
+        if (m) {
+          isAllianceMember = true;
+          // Fetch user's assigned airports for partner priority calculation
+          const userAirports = await db
+            .select({ code: allianceAssignedAirports.airportCode })
+            .from(allianceAssignedAirports)
+            .where(
+              and(
+                eq(allianceAssignedAirports.allianceId, filters.allianceId),
+                eq(allianceAssignedAirports.userId, filters.currentUserId)
+              )
+            );
+          userAssignedAirports = userAirports.map((a) => a.code);
+        }
+      }
+      if (!isAllianceMember) {
+        // Non-member querying an alliance only sees public listings of that alliance
+        conditions.push(eq(listings.visibility, "public"));
+      }
+    } else {
+      // On public marketplace: strictly show public or escalated listings
+      conditions.push(eq(listings.visibility, "public"));
+    }
+
+    const rows = await db
       .select({
         id: listings.id,
         contractType: listings.contractType,
         status: listings.status,
+        visibility: listings.visibility,
         aircraftClass: listings.aircraftClass,
         isCargo: listings.isCargo,
         originAirport: listings.originAirport,
         destinationAirport: listings.destinationAirport,
         notes: listings.notes,
         expiresAt: listings.expiresAt,
+        autoEscalateDelayHours: listings.autoEscalateDelayHours,
+        escalatedAt: listings.escalatedAt,
         createdAt: listings.createdAt,
         creator: {
           id: users.id,
@@ -102,22 +197,42 @@ export class ContractService {
           woaPlayerId: users.woaPlayerId,
           reputationScore: users.reputationScore,
         },
+        alliance: {
+          id: alliances.id,
+          name: alliances.name,
+          slug: alliances.slug,
+        },
       })
       .from(listings)
       .innerJoin(users, eq(listings.creatorId, users.id))
+      .leftJoin(alliances, eq(listings.allianceId, alliances.id))
       .where(and(...conditions))
       .orderBy(desc(listings.createdAt));
 
-    return await query;
+    return rows.map((r) => ({
+      ...r,
+      partnerPriority: userAssignedAirports.includes(r.destinationAirport),
+    }));
   }
 
-  static async getListingById(listingId: string) {
+  static async archiveExpiredListings() {
+    const now = new Date();
+    return await db
+      .update(listings)
+      .set({ status: "expired", updatedAt: now })
+      .where(and(eq(listings.status, "open"), lte(listings.expiresAt, now)))
+      .returning();
+  }
+
+  static async getListingById(listingId: string, currentUserId?: string) {
     const [listing] = await db
       .select({
         id: listings.id,
         creatorId: listings.creatorId,
+        allianceId: listings.allianceId,
         contractType: listings.contractType,
         status: listings.status,
+        visibility: listings.visibility,
         aircraftClass: listings.aircraftClass,
         isCargo: listings.isCargo,
         originAirport: listings.originAirport,
@@ -141,6 +256,28 @@ export class ContractService {
       const err = new Error("Contract listing not found");
       (err as any).statusCode = 404;
       throw err;
+    }
+
+    if (listing.visibility === "alliance_only") {
+      let isAllowed = false;
+      if (currentUserId && listing.allianceId) {
+        const [m] = await db
+          .select()
+          .from(allianceMemberships)
+          .where(
+            and(
+              eq(allianceMemberships.allianceId, listing.allianceId),
+              eq(allianceMemberships.userId, currentUserId),
+              eq(allianceMemberships.status, "active")
+            )
+          );
+        if (m) isAllowed = true;
+      }
+      if (!isAllowed) {
+        const err = new Error("Contract listing not found");
+        (err as any).statusCode = 404;
+        throw err;
+      }
     }
 
     const claims = await db

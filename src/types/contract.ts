@@ -8,6 +8,9 @@ export const createListingSchema = z.object({
   destination_airport: z.string().min(3).max(4).toUpperCase(),
   notes: z.string().max(500).optional(),
   duration_hours: z.number().int().min(1).max(72).default(24),
+  alliance_id: z.string().uuid().optional(),
+  visibility: z.enum(["public", "alliance_only"] as const).default("public"),
+  auto_escalate_delay_hours: z.number().int().min(1).max(48).optional(),
 });
 
 export const claimListingSchema = z.object({

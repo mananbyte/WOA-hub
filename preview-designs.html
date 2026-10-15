@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoA Contract Hub — 5 UI Design Philosophy Showcases</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #05070D; color: #E2E8F0; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .crt-font { font-family: 'Share Tech Mono', monospace; }
+    
+    /* 3D Tilt perspective */
+    .perspective-container { perspective: 1000px; }
+    .tilt-card {
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+      transform-style: preserve-3d;
+    }
+    .tilt-card:hover {
+      transform: rotateY(8deg) rotateX(-5deg) translateZ(10px);
+    }
+
+    /* Radar sweep animation */
+    @keyframes radar-sweep {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .radar-beam {
+      animation: radar-sweep 4s linear infinite;
+      transform-origin: center;
+    }
+
+    /* Split flap animation */
+    @keyframes flip-down {
+      0% { transform: rotateX(0deg); }
+      50% { transform: rotateX(-90deg); }
+      100% { transform: rotateX(0deg); }
+    }
+    .split-flap {
+      animation: flip-down 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="p-6 md:p-12 min-h-screen">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-12 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold mb-4">
+      <i data-lucide="compass" class="w-4 h-4"></i> DESIGN EXPLORATION LAB
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
+      WoA Contract Hub — Visual Design Philosophies
+    </h1>
+    <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
+      Compare all 5 design directions created for the World of Airports community. Interact with the cards to feel the 3D depth, typography, color harmony, and page mood.
+    </p>
+
+    <!-- Navigation / Filter buttons -->
+    <div class="flex flex-wrap justify-center gap-2 mt-8">
+      <button onclick="filterShowcase('all')" class="px-4 py-2 rounded-lg bg-slate-800 text-white text-xs font-medium hover:bg-slate-700 transition">Show All 5</button>
+      <button onclick="filterShowcase('ops')" class="px-4 py-2 rounded-lg bg-cyan-950/60 border border-cyan-800/40 text-cyan-300 text-xs font-medium hover:bg-cyan-900/60 transition">1. Radar Ops</button>
+      <button onclick="filterShowcase('luxe')" class="px-4 py-2 rounded-lg bg-sky-950/60 border border-sky-700/50 text-sky-300 text-xs font-medium hover:bg-sky-900/60 transition font-bold ring-2 ring-sky-500/30">2. Aerospace Luxe (Recommended)</button>
+      <button onclick="filterShowcase('cockpit')" class="px-4 py-2 rounded-lg bg-amber-950/60 border border-amber-800/40 text-amber-300 text-xs font-medium hover:bg-amber-900/60 transition">3. Cockpit HUD</button>
+      <button onclick="filterShowcase('swiss')" class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-medium hover:bg-zinc-800 transition">4. Swiss Terminal</button>
+      <button onclick="filterShowcase('cargo')" class="px-4 py-2 rounded-lg bg-orange-950/60 border border-orange-800/40 text-orange-300 text-xs font-medium hover:bg-orange-900/60 transition">5. Cyber Logistics</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto space-y-16">
+
+    <!-- ========================================== -->
+    <!-- PHILOSOPHY 1: RADAR OPS & ATC GLASSMORPHISM -->
+    <!-- ========================================== -->
+    <section id="phil-ops" class="rounded-3xl p-8 border border-emerald-500/20 bg-gradient-to-b from-[#061814] via-[#040E0C] to-[#020807] shadow-2xl relative overflow-hidden">
+      <!-- Radar Background Graphic -->
+      <div class="absolute -right-24 -top-24 w-96 h-96 rounded-full border border-emerald-500/10 pointer-events-none flex items-center justify-center">
+        <div class="w-72 h-72 rounded-full border border-emerald-500/15 flex items-center justify-center">
+          <div class="w-48 h-48 rounded-full border border-emerald-500/20"></div>
+        </div>
+        <div class="absolute w-full h-full radar-beam bg-gradient-to-tr from-transparent via-emerald-500/10 to-transparent rounded-full"></div>
+      </div>
+
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-xs font-mono tracking-widest text-emerald-400 uppercase bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-500/30">Philosophy 01</span>
+          <h2 class="text-2xl font-bold text-emerald-100 mt-2">Radar Ops & Air Traffic Control (Glassmorphism)</h2>
+          <p class="text-xs text-emerald-400/80">Aesthetic: Tactical flight telemetry, emerald/cyan phosphor vectors, dark frosted glass panels.</p>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/60 px-3 py-1.5 rounded-lg border border-emerald-800/30">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ATC FEED: LIVE
+        </div>
+      </div>
+
+      <!-- Sample Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 perspective-container">
+        
+        <!-- Card 1 -->
+        <div class="tilt-card backdrop-blur-xl bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-5 hover:border-emerald-400/60 shadow-lg relative group">
+          <div class="flex justify-between items-start mb-4">
+            <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">OUTGOING • CLASS D</span>
+            <span class="text-xs text-emerald-400/60 font-mono flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 05:42 left</span>
+          </div>
+          <div class="flex items-center justify-between my-4 font-mono">
+            <div class="text-center">
+              <div class="text-3xl font-extrabold text-white">PRG</div>
+              <div class="text-[10px] text-emerald-400/70">PRAGUE</div>
+            </div>
+            <div class="flex-1 flex flex-col items-center px-3">
+              <i data-lucide="plane-takeoff" class="w-5 h-5 text-emerald-400 animate-pulse"></i>
+              <div class="w-full h-0.5 bg-gradient-to-r from-emerald-500/20 via-emerald-400 to-emerald-500/20 my-1"></div>
+              <span class="text-[10px] text-emerald-400/80">B787-8</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-extrabold text-white">IAD</div>
+              <div class="text-[10px] text-emerald-400/70">WASHINGTON</div>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-emerald-500/15 flex items-center justify-between text-xs font-mono">
+            <span class="text-emerald-300">Host: @SkyPilot (99.4%)</span>
+            <button class="px-3 py-1.5 rounded bg-emerald-500 text-black font-semibold text-xs hover:bg-emerald-400 transition">CLAIM</button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="tilt-card backdrop-blur-xl bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-5 hover:border-emerald-400/60 shadow-lg relative group">
+          <div class="flex justify-between items-start mb-4">
+            <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">INCOMING • CLASS E</span>
+            <span class="text-xs text-emerald-400/60 font-mono flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 12:15 left</span>
+          </div>
+          <div class="flex items-center justify-between my-4 font-mono">
+            <div class="text-center">
+              <div class="text-3xl font-extrabold text-white">SAN</div>
+              <div class="text-[10px] text-emerald-400/70">SAN DIEGO</div>
+            </div>
+            <div class="flex-1 flex flex-col items-center px-3">
+              <i data-lucide="plane-landing" class="w-5 h-5 text-cyan-400"></i>
+              <div class="w-full h-0.5 bg-gradient-to-r from-cyan-500/20 via-cyan-400 to-cyan-500/20 my-1"></div>
+              <span class="text-[10px] text-cyan-400/80">CARGO</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-extrabold text-white">PRG</div>
+              <div class="text-[10px] text-emerald-400/70">PRAGUE</div>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-emerald-500/15 flex items-center justify-between text-xs font-mono">
+            <span class="text-emerald-300">Host: @CzechHub (100%)</span>
+            <button class="px-3 py-1.5 rounded bg-cyan-500 text-black font-semibold text-xs hover:bg-cyan-400 transition">CLAIM</button>
+          </div>
+        </div>
+
+        <!-- 3D Globe Radar Map Widget -->
+        <div class="backdrop-blur-xl bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 flex flex-col justify-between">
+          <div class="text-xs font-mono text-emerald-300 flex items-center justify-between">
+            <span>SPATIAL VECTOR RADAR</span>
+            <span class="text-emerald-500">ZOOM: 1.0X</span>
+          </div>
+          <div class="my-auto py-6 text-center">
+            <div class="w-24 h-24 rounded-full border-2 border-dashed border-emerald-400/40 mx-auto flex items-center justify-center relative">
+              <div class="w-16 h-16 rounded-full border border-emerald-400/60 flex items-center justify-center">
+                <i data-lucide="radio" class="w-8 h-8 text-emerald-400 animate-pulse"></i>
+              </div>
+            </div>
+            <div class="text-[11px] font-mono text-emerald-400/80 mt-3">10 WOA HUBS TRACKED</div>
+          </div>
+          <div class="text-[10px] font-mono text-emerald-500/70 text-center">PRG • INN • BRI • SAN • IAD • MCT • NGO</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- PHILOSOPHY 2: MODERN AEROSPACE LUXE (RECOMMENDED BASE) -->
+    <!-- ======================================================= -->
+    <section id="phil-luxe" class="rounded-3xl p-8 border-2 border-sky-500/40 bg-gradient-to-b from-[#0B101E] via-[#070A12] to-[#04060A] shadow-[0_0_50px_rgba(56,189,248,0.1)] relative">
+      <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400 text-sky-300 text-xs font-bold tracking-wide">
+        ★ RECOMMENDED DIRECTION
+      </div>
+
+      <div class="mb-6">
+        <span class="text-xs font-semibold tracking-wider text-sky-400 uppercase bg-sky-950/80 px-2.5 py-1 rounded-md border border-sky-500/30">Philosophy 02</span>
+        <h2 class="text-2xl font-bold text-white mt-2">Modern Aerospace Luxe (Linear / Vercel Spatial)</h2>
+        <p class="text-xs text-slate-400">Aesthetic: Deep obsidian canvas, razor-sharp micro-borders, ambient sky cyan & turbine amber lighting, 3D tilt card physics.</p>
+      </div>
+
+      <!-- Sample Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 perspective-container">
+        
+        <!-- 3D Card 1 -->
+        <div class="tilt-card bg-slate-900/60 border border-white/10 rounded-2xl p-6 hover:border-sky-400/50 hover:shadow-[0_10px_30px_rgba(56,189,248,0.15)] transition duration-300 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">Outgoing Contract</span>
+            <span class="text-xs text-slate-400 font-mono">Class D • Pax</span>
+          </div>
+
+          <div class="flex items-center justify-between my-5">
+            <div>
+              <span class="text-3xl font-extrabold text-white tracking-tight mono">PRG</span>
+              <p class="text-xs text-slate-400">Prague</p>
+            </div>
+            <div class="flex-1 flex flex-col items-center px-4">
+              <span class="text-xs font-mono text-sky-400 mb-1">9h 20m</span>
+              <div class="w-full relative flex items-center justify-center">
+                <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-sky-500 to-transparent"></div>
+                <i data-lucide="plane" class="w-4 h-4 text-sky-400 absolute transform rotate-90"></i>
+              </div>
+              <span class="text-[10px] text-slate-500 mt-1">B787-8</span>
+            </div>
+            <div class="text-right">
+              <span class="text-3xl font-extrabold text-white tracking-tight mono">IAD</span>
+              <p class="text-xs text-slate-400">Dulles</p>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xs">P</div>
+              <div>
+                <p class="text-xs text-white font-medium">@PilotDave</p>
+                <p class="text-[10px] text-amber-400 flex items-center gap-0.5"><i data-lucide="star" class="w-2.5 h-2.5 fill-current"></i> 4.98 Rep</p>
+              </div>
+            </div>
+            <button class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition shadow-lg shadow-sky-500/20">
+              Claim Flight
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Card 2 -->
+        <div class="tilt-card bg-slate-900/60 border border-white/10 rounded-2xl p-6 hover:border-amber-400/50 hover:shadow-[0_10px_30px_rgba(245,158,11,0.15)] transition duration-300 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">Incoming Request</span>
+            <span class="text-xs text-slate-400 font-mono">Class E • Heavy</span>
+          </div>
+
+          <div class="flex items-center justify-between my-5">
+            <div>
+              <span class="text-3xl font-extrabold text-white tracking-tight mono">HKG</span>
+              <p class="text-xs text-slate-400">Hong Kong</p>
+            </div>
+            <div class="flex-1 flex flex-col items-center px-4">
+              <span class="text-xs font-mono text-amber-400 mb-1">Turnaround</span>
+              <div class="w-full relative flex items-center justify-center">
+                <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+                <i data-lucide="plane" class="w-4 h-4 text-amber-400 absolute transform rotate-90"></i>
+              </div>
+              <span class="text-[10px] text-slate-500 mt-1">B777-300ER</span>
+            </div>
+            <div class="text-right">
+              <span class="text-3xl font-extrabold text-white tracking-tight mono">PRG</span>
+              <p class="text-xs text-slate-400">Prague</p>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">A</div>
+              <div>
+                <p class="text-xs text-white font-medium">@AeroMaster</p>
+                <p class="text-[10px] text-amber-400 flex items-center gap-0.5"><i data-lucide="star" class="w-2.5 h-2.5 fill-current"></i> 5.00 Rep</p>
+              </div>
+            </div>
+            <button class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition shadow-lg shadow-amber-500/20">
+              Claim Flight
+            </button>
+          </div>
+        </div>
+
+        <!-- Dedicated Operations Card (What a separate page looks like) -->
+        <div class="bg-gradient-to-br from-slate-900/90 to-slate-950 border border-sky-500/30 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl"></div>
+          <div>
+            <div class="text-xs font-mono text-sky-400 uppercase tracking-wider mb-2">Dedicated Ops View</div>
+            <h3 class="text-lg font-bold text-white mb-2">In-Flight Room: #CONN-8821</h3>
+            <p class="text-xs text-slate-400 mb-4">Dedicated focus room for ongoing flight turnarounds. Zero distraction, 1-click execution.</p>
+            
+            <!-- Progress Stepper -->
+            <div class="space-y-2 mb-4 font-mono text-xs">
+              <div class="flex items-center gap-2 text-emerald-400"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Contract Accepted</div>
+              <div class="flex items-center gap-2 text-amber-400"><i data-lucide="clock" class="w-3.5 h-3.5 animate-spin"></i> Dispatched in WoA (Pending Host)</div>
+              <div class="flex items-center gap-2 text-slate-600"><i data-lucide="circle" class="w-3.5 h-3.5"></i> Turnaround Completed</div>
+            </div>
+          </div>
+          <button class="w-full py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2">
+            Open Full Ops Page <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- PHILOSOPHY 3: RETRO-FUTURISTIC FLIGHT DECK (HUD) -->
+    <!-- ================================================= -->
+    <section id="phil-cockpit" class="rounded-3xl p-8 border border-amber-500/30 bg-[#0A0702] relative">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-xs crt-font tracking-widest text-amber-400 uppercase bg-amber-950/80 px-2.5 py-1 rounded border border-amber-600/40">Philosophy 03</span>
+          <h2 class="text-2xl font-bold text-amber-200 mt-2 crt-font">Retro-Futuristic Flight Deck (Cockpit HUD)</h2>
+          <p class="text-xs text-amber-400/80">Aesthetic: Monospace avionics instrumentation, amber CRT phosphor glows, physical 3D switch controls.</p>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-xs crt-font text-amber-400 bg-amber-950/40 px-3 py-1.5 rounded border border-amber-700/30">
+          SYS_STATUS: NOMINAL // VOLTS: 28.4
+        </div>
+      </div>
+
+      <!-- Sample Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-[#120D04] border-2 border-amber-500/40 rounded-xl p-5 shadow-[0_0_20px_rgba(245,158,11,0.08)]">
+          <div class="flex justify-between items-center text-xs crt-font text-amber-400 border-b border-amber-500/20 pb-2 mb-4">
+            <span>ROUTE // O-092</span>
+            <span>CLS: [ D ]</span>
+          </div>
+          <div class="text-center my-4">
+            <div class="text-3xl crt-font font-bold text-amber-300 tracking-widest">PRG ➔ IAD</div>
+            <div class="text-xs crt-font text-amber-500/80 mt-1">FREQ: 124.85 // DIST: 4210 NM</div>
+          </div>
+          <div class="bg-black/60 p-3 rounded border border-amber-500/20 my-4 text-xs crt-font text-amber-400/90 space-y-1">
+            <div class="flex justify-between"><span>AIRCRAFT:</span><span class="text-white">B788 DREAMLINER</span></div>
+            <div class="flex justify-between"><span>STAND REQ:</span><span class="text-white">HEAVY GATE 04</span></div>
+          </div>
+          <button class="w-full py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500 font-bold text-xs crt-font uppercase tracking-wider transition">
+            [ ENGAGE CLAIM ]
+          </button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-[#120D04] border-2 border-amber-500/40 rounded-xl p-5 shadow-[0_0_20px_rgba(245,158,11,0.08)]">
+          <div class="flex justify-between items-center text-xs crt-font text-amber-400 border-b border-amber-500/20 pb-2 mb-4">
+            <span>ROUTE // I-104</span>
+            <span>CLS: [ F-SUPER ]</span>
+          </div>
+          <div class="text-center my-4">
+            <div class="text-3xl crt-font font-bold text-amber-300 tracking-widest">HKG ➔ PRG</div>
+            <div class="text-xs crt-font text-amber-500/80 mt-1">A380-800 DUAL JETWAY</div>
+          </div>
+          <div class="bg-black/60 p-3 rounded border border-amber-500/20 my-4 text-xs crt-font text-amber-400/90 space-y-1">
+            <div class="flex justify-between"><span>OPERATOR:</span><span class="text-white">@CathayWoA</span></div>
+            <div class="flex justify-between"><span>REPUTATION:</span><span class="text-white">100% (48/48)</span></div>
+          </div>
+          <button class="w-full py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500 font-bold text-xs crt-font uppercase tracking-wider transition">
+            [ ENGAGE CLAIM ]
+          </button>
+        </div>
+
+        <!-- Cockpit Instrument Panel -->
+        <div class="bg-[#120D04] border-2 border-amber-500/40 rounded-xl p-5 flex flex-col justify-between">
+          <div class="text-xs crt-font text-amber-400 border-b border-amber-500/20 pb-2">
+            AVIONICS DISPATCH TOGGLE
+          </div>
+          <div class="my-6 space-y-4">
+            <div class="flex items-center justify-between p-3 bg-black/60 rounded border border-amber-500/20">
+              <span class="text-xs crt-font text-amber-300">DISPATCH SWITCH</span>
+              <span class="px-2 py-0.5 bg-emerald-500/20 border border-emerald-500 text-emerald-400 text-[10px] crt-font">ARMED</span>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-black/60 rounded border border-amber-500/20">
+              <span class="text-xs crt-font text-amber-300">ACCEPT CONFIRM</span>
+              <span class="px-2 py-0.5 bg-amber-500/20 border border-amber-500 text-amber-400 text-[10px] crt-font">STANDBY</span>
+            </div>
+          </div>
+          <div class="text-[10px] crt-font text-amber-500/60 text-center">ANALOG HARDWARE SIMULATION MODE</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================== -->
+    <!-- PHILOSOPHY 4: SWISS AIRLINE TERMINAL EDITORIAL -->
+    <!-- ============================================== -->
+    <section id="phil-swiss" class="rounded-3xl p-8 border border-zinc-700 bg-zinc-950 relative">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-xs font-mono tracking-widest text-zinc-300 uppercase bg-zinc-800 px-2.5 py-1 rounded">Philosophy 04</span>
+          <h2 class="text-2xl font-bold text-zinc-100 mt-2">Swiss Airline Terminal Editorial</h2>
+          <p class="text-xs text-zinc-400">Aesthetic: Minimalist black & white, stark typography, mechanical 3D split-flap departure board animations.</p>
+        </div>
+      </div>
+
+      <!-- Sample Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1 (Split-Flap Board Style) -->
+        <div class="bg-black border border-zinc-700 rounded-xl p-6 shadow-xl">
+          <div class="flex items-center justify-between text-xs text-zinc-400 uppercase tracking-widest mb-4">
+            <span>Departure</span>
+            <span class="text-yellow-400 font-mono font-bold">BOARDING</span>
+          </div>
+          <div class="space-y-2 mb-6">
+            <div class="bg-zinc-900 border border-zinc-800 p-3 rounded font-mono text-2xl font-bold text-center tracking-widest text-zinc-100 split-flap">
+              PRG ✈ IAD
+            </div>
+            <div class="flex justify-between text-xs font-mono text-zinc-400 pt-1">
+              <span>CLASS D • B787</span>
+              <span>GATE B12</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-zinc-800 flex justify-between items-center text-xs">
+            <span class="text-zinc-400">Capt. Dave</span>
+            <button class="px-4 py-2 bg-white text-black font-bold text-xs rounded hover:bg-zinc-200 transition">
+              Accept Flight
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-black border border-zinc-700 rounded-xl p-6 shadow-xl">
+          <div class="flex items-center justify-between text-xs text-zinc-400 uppercase tracking-widest mb-4">
+            <span>Arrival</span>
+            <span class="text-emerald-400 font-mono font-bold">ON TIME</span>
+          </div>
+          <div class="space-y-2 mb-6">
+            <div class="bg-zinc-900 border border-zinc-800 p-3 rounded font-mono text-2xl font-bold text-center tracking-widest text-zinc-100">
+              HKG ✈ PRG
+            </div>
+            <div class="flex justify-between text-xs font-mono text-zinc-400 pt-1">
+              <span>CLASS F • A380</span>
+              <span>STAND S02</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-zinc-800 flex justify-between items-center text-xs">
+            <span class="text-zinc-400">Capt. Wong</span>
+            <button class="px-4 py-2 bg-white text-black font-bold text-xs rounded hover:bg-zinc-200 transition">
+              Accept Flight
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 Editorial Clean Info -->
+        <div class="bg-black border border-zinc-700 rounded-xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-xs text-zinc-400 uppercase tracking-widest mb-2">Simplicity First</div>
+            <h3 class="text-xl font-bold text-white mb-2">Zero Visual Noise</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Every detail is treated like Swiss typography on an airport departures display. High contrast, maximum readability for rapid flight connections.
+            </p>
+          </div>
+          <div class="text-[11px] font-mono text-zinc-500 pt-4 border-t border-zinc-800">
+            WOA FLIGHT BULLETIN // 2026
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================== -->
+    <!-- PHILOSOPHY 5: CYBER-LOGISTICS COMMAND CENTER  -->
+    <!-- ============================================== -->
+    <section id="phil-cargo" class="rounded-3xl p-8 border border-orange-500/30 bg-[#0A0D14] relative">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-xs font-mono tracking-widest text-orange-400 uppercase bg-orange-950/80 px-2.5 py-1 rounded border border-orange-600/30">Philosophy 05</span>
+          <h2 class="text-2xl font-bold text-orange-100 mt-2">Cyber-Logistics & Fleet Command</h2>
+          <p class="text-xs text-orange-300/80">Aesthetic: Industrial cargo operations, hazard safety stripes, high-visibility orange accents, isometric bay indicators.</p>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-xs font-mono text-orange-400 bg-orange-950/40 px-3 py-1.5 rounded border border-orange-700/30">
+          BAY 07: READY FOR DISPATCH
+        </div>
+      </div>
+
+      <!-- Sample Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1 (Cargo Heavy) -->
+        <div class="bg-slate-900/90 border-t-4 border-t-orange-500 border-x border-b border-slate-800 rounded-xl p-5 shadow-lg">
+          <div class="flex justify-between items-center mb-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">CARGO FREIGHTER</span>
+            <span class="text-xs text-slate-400 font-mono">B747-8F</span>
+          </div>
+          <div class="my-4 text-center">
+            <div class="text-3xl font-extrabold text-white mono">LEJ ➔ SAN</div>
+            <div class="text-xs text-orange-400 font-mono mt-1">LEIPZIG LOGISTICS HUB</div>
+          </div>
+          <div class="bg-black/40 p-2.5 rounded border border-white/5 my-3 text-xs font-mono text-slate-300">
+            <div class="flex justify-between"><span>PAYLOAD:</span><span class="text-orange-400 font-bold">130 TONS</span></div>
+            <div class="flex justify-between"><span>AVAILABILITY:</span><span>IMMEDIATE</span></div>
+          </div>
+          <button class="w-full py-2 bg-orange-500 hover:bg-orange-400 text-black font-extrabold text-xs font-mono uppercase tracking-wider rounded transition">
+            DISPATCH FREIGHT
+          </button>
+        </div>
+
+        <!-- Card 2 (Passenger Express) -->
+        <div class="bg-slate-900/90 border-t-4 border-t-blue-500 border-x border-b border-slate-800 rounded-xl p-5 shadow-lg">
+          <div class="flex justify-between items-center mb-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">PASSENGER EXPRESS</span>
+            <span class="text-xs text-slate-400 font-mono">A350-900</span>
+          </div>
+          <div class="my-4 text-center">
+            <div class="text-3xl font-extrabold text-white mono">MCT ➔ NGO</div>
+            <div class="text-xs text-blue-400 font-mono mt-1">MUSCAT ➔ NAGOYA</div>
+          </div>
+          <div class="bg-black/40 p-2.5 rounded border border-white/5 my-3 text-xs font-mono text-slate-300">
+            <div class="flex justify-between"><span>SEATS:</span><span class="text-blue-400 font-bold">320 PAX</span></div>
+            <div class="flex justify-between"><span>STATUS:</span><span>OPEN FOR HOST</span></div>
+          </div>
+          <button class="w-full py-2 bg-blue-500 hover:bg-blue-400 text-black font-extrabold text-xs font-mono uppercase tracking-wider rounded transition">
+            CLAIM ROUTE
+          </button>
+        </div>
+
+        <!-- Card 3 Dedicated Bay Status -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+          <div class="text-xs font-mono text-orange-400 uppercase tracking-widest border-b border-slate-800 pb-2">
+            RAMP TELEMETRY
+          </div>
+          <div class="py-4 space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400">ACTIVE HUBS:</span>
+              <span class="text-white font-bold">10 / 10</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400">AVG CLAIM TIME:</span>
+              <span class="text-emerald-400 font-bold">4.2 MIN</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400">CARGO SHARE:</span>
+              <span class="text-orange-400 font-bold">42%</span>
+            </div>
+          </div>
+          <div class="bg-orange-500/10 border border-orange-500/20 p-2 text-center rounded text-[11px] font-mono text-orange-300">
+            FLEET COMMAND V1.0
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Filter Script -->
+  <script>
+    lucide.createIcons();
+
+    function filterShowcase(id) {
+      const sections = ['phil-ops', 'phil-luxe', 'phil-cockpit', 'phil-swiss', 'phil-cargo'];
+      if (id === 'all') {
+        sections.forEach(s => document.getElementById(s).style.display = 'block');
+      } else {
+        sections.forEach(s => {
+          document.getElementById(s).style.display = s === 'phil-' + id ? 'block' : 'none';
+        });
+      }
+    }
+  </script>
+</body>
+</html>

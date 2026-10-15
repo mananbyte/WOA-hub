@@ -11,7 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx src/db/seed.ts",
-    "test": "tsx tests/auth.test.ts && tsx tests/contract.test.ts && tsx tests/concurrency.test.ts"
+    "test": "tsx tests/auth.test.ts && tsx tests/contract.test.ts && tsx tests/concurrency.test.ts && tsx tests/alliance.test.ts && tsx tests/escalation.test.ts"
   },
   "keywords": [
     "woa",
@@ -30,6 +30,7 @@
     "express": "^5.3.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.23.1",
+    "pg-boss": "^12.38.0",
     "pino": "^10.4.0",
     "zod": "^4.6.7"
   },
