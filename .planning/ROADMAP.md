@@ -20,7 +20,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |---|---|---|---|
 | 1. Core Foundation & Marketplace Engine | 3/3 | Complete | 2026-10-15 |
 | 2. React Web Marketplace & User Experience | 2/2 | Complete | 2026-10-15 |
-| 3. Alliance Spaces & Scoped Query Engine | 0/2 | Ready | - |
+| 3. Alliance Spaces & Scoped Query Engine | 2/3 | In Progress | - |
 | 4. Discord Bot Integration, Notifications & Trust System | 0/2 | Not started | - |
 
 ### Phase 1: Core Foundation & Marketplace Engine
@@ -69,11 +69,12 @@ Plans:
   2. Four-tier RBAC (Owner, Admin, Member, Visitor) governs member permissions and workspace administration.
   3. Members can post `alliance_only` listings that are strictly hidden from non-members in database queries.
   4. Background worker (`pg-boss`) automatically escalates unclaimed private listings to public marketplace after configured delay and archives expired listings.
-**Plans**: 2 plans
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Implement Alliance data model, membership invite/approval flow, 4-tier RBAC, and assigned-airport registry.
-- [ ] 03-02: Implement audience-scoped query engine (`open` vs `alliance_only`), alliance web workspace, and `pg-boss` worker for listing expiration and escalation timers.
+- [x] 03-01: Implement Alliance data model, membership invite/approval flow, 4-tier RBAC, and assigned-airport registry.
+- [x] 03-02: Implement audience-scoped query engine (`open` vs `alliance_only`), alliance web workspace, and `pg-boss` worker for listing expiration and escalation timers.
+- [ ] 03-03: Implement Discord-style Alliance Guest request protocol, 18-playable airport expansion, renewal flag, partial dispatch state, and direction-aware smart airport filtering.
 
 ### Phase 4: Discord Bot Integration, Notifications & Trust System
 **Goal**: Integrate the discord.js bot sharing the in-process domain core for instant DM notifications, slash commands, and webhook channel broadcasts, alongside a bilateral reputation rating and moderation system.
