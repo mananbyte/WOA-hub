@@ -14,9 +14,9 @@
     "build:all": "tsc && npm run build --prefix web",
     "start": "node dist/server.js",
     "start:prod": "npm run db:push && node dist/server.js",
-    "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push",
-    "db:seed": "tsx src/db/seed.ts",
+    "db:generate": "node node_modules/drizzle-kit/bin.cjs generate",
+    "db:push": "node node_modules/drizzle-kit/bin.cjs push",
+    "db:seed": "node node_modules/tsx/dist/cli.mjs src/db/seed.ts",
     "test": "tsx tests/auth.test.ts && tsx tests/contract.test.ts && tsx tests/concurrency.test.ts && tsx tests/alliance.test.ts && tsx tests/escalation.test.ts && tsx tests/alliance_guest_flow.test.ts"
   },
   "keywords": [
