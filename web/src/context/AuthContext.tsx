@@ -14,8 +14,8 @@ interface AuthContextType {
   register: (data: {
     email: string;
     password: string;
-    discord_username: string;
-    woa_player_id?: string;
+    woa_player_id: string;
+    discord_username?: string;
     age_confirmed: boolean;
   }) => Promise<void>;
   logout: () => void;
@@ -82,8 +82,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = async (data: {
     email: string;
     password: string;
-    discord_username: string;
-    woa_player_id?: string;
+    woa_player_id: string;
+    discord_username?: string;
     age_confirmed: boolean;
   }) => {
     const res = await api.auth.register(data);

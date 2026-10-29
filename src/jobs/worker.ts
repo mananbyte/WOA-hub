@@ -2,9 +2,9 @@ import { PgBoss } from "pg-boss";
 import { db } from "../db/index.js";
 import { listings, listingClaims, statusEvents } from "../db/schema.js";
 import { eq, and, sql, lte } from "drizzle-orm";
+import { config } from "../config.js";
 
-const connectionString =
-  process.env.DATABASE_URL || "postgresql://postgres:postgrespassword@localhost:5432/woa_hub";
+const connectionString = config.databaseUrl;
 
 export const boss = new PgBoss({
   connectionString,
@@ -18,6 +18,10 @@ boss.on("error", (err) => {
 });
 
 export async function startWorkers() {
+  if (process.env.VERCEL) {
+    console.log("Running in Vercel serverless environment; skipping persistent pg-boss daemon.");
+    return;
+  }
   await boss.start();
   isWorkerRunning = true;
   console.log("pg-boss background worker service started.");

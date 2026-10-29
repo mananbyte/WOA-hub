@@ -1,13 +1,9 @@
 import { app } from "./app.js";
 import dotenv from "dotenv";
 import { startWorkers } from "./jobs/worker.js";
-
-dotenv.config();
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, async () => {
-  console.log(`WoA Contract Hub API running on http://localhost:${PORT}`);
+import { config } from "./config.js";
+app.listen(config.port, async () => {
+  console.log(`WoA Contract Hub API running on port ${config.port}`);
   try {
     await startWorkers();
   } catch (err) {

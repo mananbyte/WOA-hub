@@ -66,10 +66,10 @@ export const DashboardPage = ({ onNavigate }: DashboardPageProps) => {
             </span>
           </div>
           <h1 className="text-3xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
-            COMMAND CENTER: {user.discordUsername.toUpperCase()}
+            COMMAND CENTER: {(user.discordUsername || user.woaPlayerId).toUpperCase()}
           </h1>
           <p className="text-sm text-[#5E6366] mt-0.5 font-mono">
-            WOA ID: {user.woaPlayerId || "UNLINKED"} • REPUTATION SCORE: {user.reputationScore}%
+            WOA ID: {user.woaPlayerId} {user.discordUsername ? `• DISCORD: ${user.discordUsername}` : ""} • REPUTATION SCORE: {user.reputationScore}%
           </p>
         </div>
 

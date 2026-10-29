@@ -1,8 +1,8 @@
 export interface User {
   id: string;
   email: string;
-  discordUsername: string;
-  woaPlayerId: string | null;
+  discordUsername: string | null;
+  woaPlayerId: string;
   reputationScore: number;
   totalCompletedContracts: number;
   totalCancelledContracts: number;
@@ -11,8 +11,8 @@ export interface User {
 
 export interface PublicProfile {
   id: string;
-  discordUsername: string;
-  woaPlayerId: string | null;
+  discordUsername: string | null;
+  woaPlayerId: string;
   reputationScore: number;
   totalCompletedContracts: number;
   totalCancelledContracts: number;
@@ -51,7 +51,8 @@ export interface Alliance {
   createdAt: string;
   creator?: {
     id: string;
-    discordUsername: string;
+    discordUsername: string | null;
+    woaPlayerId?: string;
     reputationScore?: number;
   };
 }
@@ -72,8 +73,8 @@ export interface HubCoverage {
   region: string;
   pilots: {
     id: string;
-    discordUsername: string;
-    woaPlayerId: string | null;
+    discordUsername: string | null;
+    woaPlayerId: string;
     reputationScore: number;
   }[];
   outgoingCount: number;
@@ -107,8 +108,8 @@ export interface Listing {
   createdAt: string;
   creator: {
     id: string;
-    discordUsername: string;
-    woaPlayerId: string | null;
+    discordUsername: string | null;
+    woaPlayerId: string;
     reputationScore: number;
   };
   partnerPriority?: boolean;
@@ -126,8 +127,8 @@ export interface ListingClaim {
   createdAt: string;
   claimant: {
     id: string;
-    discordUsername: string;
-    woaPlayerId: string | null;
+    discordUsername: string | null;
+    woaPlayerId: string;
     reputationScore: number;
   };
 }
@@ -242,8 +243,8 @@ export const api = {
     register: (credentials: {
       email: string;
       password: string;
-      discord_username: string;
-      woa_player_id?: string;
+      woa_player_id: string;
+      discord_username?: string;
       age_confirmed: boolean;
     }) =>
       api.post<{ user: User; token: string }>("/api/auth/register", credentials),

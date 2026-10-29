@@ -1,6 +1,8 @@
 import { Plane, Clock, ShieldCheck, ArrowRight, Package, RotateCw } from "lucide-react";
 import { type Listing } from "../api/client";
 import { useAuth } from "../context/AuthContext";
+import { AirportCrest } from "./AirportCrest";
+
 
 interface ContractCardProps {
   listing: Listing;
@@ -91,29 +93,39 @@ export const ContractCard = ({
           </span>
         </div>
 
-        {/* Route Row: Airport Codes */}
+        {/* Route Row: Airport Crests + IATA Codes */}
         <div
           onClick={() => onSelect(listing.id)}
           className="flex items-center justify-between my-2 cursor-pointer group-hover:text-[#1240C7] transition"
         >
-          <div className="flex items-center gap-3">
-            <span className="text-2xl font-extrabold font-mono tracking-tight text-[#141A1F]">
-              {listing.originAirport}
-            </span>
-            <div className="flex items-center gap-1 text-[#5E6366]">
-              <div className="w-4 h-0.5 bg-[#C9C7BA]" />
-              <Plane className="w-4 h-4 text-[#1240C7] -rotate-45" />
-              <div className="w-4 h-0.5 bg-[#C9C7BA]" />
+          <div className="flex items-center gap-2">
+            {/* Origin crest + code */}
+            <div className="flex flex-col items-center gap-1">
+              <AirportCrest code={listing.originAirport} size={36} />
+              <span className="text-lg font-extrabold font-mono tracking-tight text-[#141A1F]">
+                {listing.originAirport}
+              </span>
             </div>
-            <span className="text-2xl font-extrabold font-mono tracking-tight text-[#141A1F]">
-              {listing.destinationAirport}
-            </span>
+            {/* Flight arc connector */}
+            <div className="flex flex-col items-center gap-1 px-1">
+              <div className="flex items-center gap-1 text-[#5E6366]">
+                <div className="w-4 h-0.5 bg-[#C9C7BA]" />
+                <Plane className="w-4 h-4 text-[#1240C7] -rotate-45" />
+                <div className="w-4 h-0.5 bg-[#C9C7BA]" />
+              </div>
+              <span className="text-[9px] font-mono text-[#5E6366] uppercase tracking-wider">FLIGHT</span>
+            </div>
+            {/* Destination crest + code */}
+            <div className="flex flex-col items-center gap-1">
+              <AirportCrest code={listing.destinationAirport} size={36} />
+              <span className="text-lg font-extrabold font-mono tracking-tight text-[#141A1F]">
+                {listing.destinationAirport}
+              </span>
+            </div>
           </div>
 
           <div className="text-right">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#5E6366] block">
-              STATUS
-            </span>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#5E6366] block">STATUS</span>
             <span className={`text-xs font-mono font-bold uppercase ${statusInfo.color}`}>
               {statusInfo.label}
             </span>
@@ -142,11 +154,11 @@ export const ContractCard = ({
         {/* Creator Info */}
         <div className="flex items-center gap-2 min-w-0">
           <div className="w-7 h-7 rounded-full bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-center font-mono font-bold text-xs text-[#141A1F] shrink-0">
-            {listing.creator.discordUsername.slice(0, 2).toUpperCase()}
+            {(listing.creator.discordUsername || listing.creator.woaPlayerId || "WOA").slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
             <p className="text-xs font-bold font-mono text-[#141A1F] truncate leading-tight">
-              {listing.creator.discordUsername}
+              {listing.creator.discordUsername || listing.creator.woaPlayerId}
             </p>
             <div className="flex items-center gap-1 text-[10px] text-[#5E6366] font-mono leading-tight">
               <ShieldCheck className="w-3 h-3 text-[#A8C229]" />

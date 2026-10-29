@@ -19,6 +19,8 @@ import {
   AlertCircle,
   UserCheck,
 } from "lucide-react";
+import { AirportCrest } from "../components/AirportCrest";
+
 
 interface AllianceDetailPageProps {
   slug: string;
@@ -263,7 +265,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
                   <Shield className="w-4 h-4 text-[#A8C229]" />
                   <span>FOUNDER:</span>
                   <span className="font-bold text-[#141A1F]">
-                    {alliance.creator.discordUsername}
+                    {alliance.creator.discordUsername || "Founder"}
                   </span>
                 </div>
               )}
@@ -393,12 +395,15 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-extrabold text-xl text-[#141A1F]">
-                      {hub.code}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <AirportCrest code={hub.code} size={26} />
+                      <span className="font-mono font-extrabold text-lg text-[#141A1F]">
+                        {hub.code}
+                      </span>
+                    </div>
                     {isCovered ? (
                       <span className="text-[10px] font-mono font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#A8C229]/20 text-[#2D5A06]">
-                        {hub.pilots.length} PILOT{hub.pilots.length > 1 ? "S" : ""}
+                        {hub.pilots.length}P
                       </span>
                     ) : (
                       <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-[#F25E24]/10 text-[#D3410B]">

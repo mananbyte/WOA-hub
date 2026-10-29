@@ -4,10 +4,16 @@
   "description": "World of Airports community flight contract coordination hub",
   "main": "src/server.ts",
   "type": "module",
+  "workspaces": [
+    "web"
+  ],
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "build:web": "npm run build --prefix web",
+    "build:all": "tsc && npm run build --prefix web",
     "start": "node dist/server.js",
+    "start:prod": "npm run db:push && node dist/server.js",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx src/db/seed.ts",

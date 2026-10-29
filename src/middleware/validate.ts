@@ -4,12 +4,19 @@ import { z, ZodError } from "zod";
 export const registerSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
+  woa_player_id: z
+    .string()
+    .trim()
+    .min(2, "WoA Player ID must be at least 2 characters")
+    .max(100, "WoA Player ID cannot exceed 100 characters"),
   discord_username: z
     .string()
+    .trim()
     .min(2, "Discord username must be at least 2 characters")
     .max(32, "Discord username cannot exceed 32 characters")
-    .regex(/^[^@#:]{2,32}$/, "Invalid Discord username format"),
-  woa_player_id: z.string().max(100).optional(),
+    .regex(/^[^@#:]{2,32}$/, "Invalid Discord username format")
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
 });
 
 export const loginSchema = z.object({

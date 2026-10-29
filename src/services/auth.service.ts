@@ -7,8 +7,8 @@ import { generateToken } from "../middleware/auth.js";
 export interface RegisterInput {
   email: string;
   password: string;
-  discord_username: string;
-  woa_player_id?: string;
+  woa_player_id: string;
+  discord_username?: string | null;
 }
 
 export interface LoginInput {
@@ -33,14 +33,15 @@ export class AuthService {
       .values({
         email: input.email.toLowerCase(),
         passwordHash,
-        discordUsername: input.discord_username,
-        woaPlayerId: input.woa_player_id || null,
+        discordUsername: input.discord_username || null,
+        woaPlayerId: input.woa_player_id,
       })
       .returning();
 
     const token = generateToken({
       userId: newUser.id,
       email: newUser.email,
+      woaPlayerId: newUser.woaPlayerId,
       discordUsername: newUser.discordUsername,
     });
 
@@ -75,6 +76,7 @@ export class AuthService {
     const token = generateToken({
       userId: user.id,
       email: user.email,
+      woaPlayerId: user.woaPlayerId,
       discordUsername: user.discordUsername,
     });
 

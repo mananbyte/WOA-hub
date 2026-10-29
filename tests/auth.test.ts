@@ -34,6 +34,7 @@ async function runAuthTests() {
       .send({
         email: testEmail,
         password: "anotherPassword",
+        woa_player_id: "WOA-DUPE-1",
         discord_username: "SkyCaptain2",
       });
     console.log(`Duplicate registration status: ${dupRes.status}`);
@@ -41,6 +42,33 @@ async function runAuthTests() {
       throw new Error(`Expected 409 Conflict, got ${dupRes.status}`);
     }
     console.log("✓ Duplicate registration rejected with 409 Conflict");
+
+    // 2b. Optional Discord username registration test (succeeds without Discord username)
+    const noDiscordEmail = `nodiscord_${Date.now()}@woahub.test`;
+    const noDiscordRes = await request(app)
+      .post("/api/auth/register")
+      .send({
+        email: noDiscordEmail,
+        password: "securePassword123!",
+        woa_player_id: "WOA-NO-DISCORD-101",
+      });
+    if (noDiscordRes.status !== 201 || noDiscordRes.body.user.discordUsername !== null) {
+      throw new Error(`Expected 201 with null discordUsername, got ${noDiscordRes.status}: ${JSON.stringify(noDiscordRes.body)}`);
+    }
+    console.log("✓ Registration succeeded without optional Discord username (null discordUsername)");
+
+    // 2c. Missing mandatory WoA Player ID test (fails with 400)
+    const missingWoaRes = await request(app)
+      .post("/api/auth/register")
+      .send({
+        email: `missingwoa_${Date.now()}@woahub.test`,
+        password: "securePassword123!",
+        discord_username: "OnlyDiscord",
+      });
+    if (missingWoaRes.status !== 400) {
+      throw new Error(`Expected 400 Bad Request when woa_player_id is missing, got ${missingWoaRes.status}`);
+    }
+    console.log("✓ Registration rejected with 400 when mandatory woa_player_id is omitted");
 
     // 3. Login test (success)
     const loginRes = await request(app)

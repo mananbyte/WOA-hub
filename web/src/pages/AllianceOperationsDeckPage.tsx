@@ -531,7 +531,7 @@ export const AllianceOperationsDeckPage = ({
                       <div className="flex items-center gap-1.5 text-[#5E6366]">
                         <span>PILOT:</span>
                         <span className="font-bold text-[#141A1F]">
-                          {item.creator.discordUsername}
+                          {item.creator.discordUsername || item.creator.woaPlayerId}
                         </span>
                       </div>
 
@@ -636,7 +636,7 @@ export const AllianceOperationsDeckPage = ({
                                 : "bg-[#F0EBDE] text-[#141A1F]"
                             }`}
                           >
-                            {p.discordUsername}
+                            {p.discordUsername || p.woaPlayerId}
                           </span>
                         ))}
                       </div>
@@ -702,9 +702,9 @@ export const AllianceOperationsDeckPage = ({
                   {members.map((m) => (
                     <tr key={m.id} className="hover:bg-[#F0EBDE]/30 transition">
                       <td className="py-3.5 px-4 font-bold text-[#141A1F]">
-                        <div>{m.discordUsername}</div>
+                        <div>{m.discordUsername || m.woaPlayerId}</div>
                         <div className="text-[10px] font-normal text-[#5E6366]">
-                          {m.woaPlayerId || "NO WOA ID"}
+                          {m.discordUsername ? m.woaPlayerId : "WOA PILOT"}
                         </div>
                       </td>
                       <td className="py-3.5 px-4">

@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-jwt-key-replace-in-production-min-32-chars";
+import { config } from "../config.js";
 
 export interface AuthUser {
   userId: string;
   email: string;
-  discordUsername: string;
+  woaPlayerId: string;
+  discordUsername?: string | null;
 }
 
 declare global {
@@ -26,7 +26,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
 
   const token = authHeader.split(" ")[1];
   try {
-    const payload = jwt.verify(token, JWT_SECRET) as AuthUser;
+    const payload = jwt.verify(token, config.jwtSecret) as AuthUser;
     req.user = payload;
     next();
   } catch (error) {
@@ -39,7 +39,7 @@ export function optionalAuth(req: Request, res: Response, next: NextFunction): v
   if (authHeader && authHeader.startsWith("Bearer ")) {
     const token = authHeader.split(" ")[1];
     try {
-      const payload = jwt.verify(token, JWT_SECRET) as AuthUser;
+      const payload = jwt.verify(token, config.jwtSecret) as AuthUser;
       req.user = payload;
     } catch {
       // Ignore invalid or expired token for optional auth
@@ -53,10 +53,10 @@ export function generateToken(user: AuthUser): string {
     {
       userId: user.userId,
       email: user.email,
-      discordUsername: user.discordUsername,
+      woaPlayerId: user.woaPlayerId,
+      discordUsername: user.discordUsername || null,
     },
-    JWT_SECRET,
+    config.jwtSecret,
     { expiresIn: "7d" }
   );
 }
-

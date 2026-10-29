@@ -54,6 +54,8 @@ Progress: [████████░░] 80%
 - [Phase 1]: Designed bilateral status progression state machine requiring both flight sender and recipient to report in-game completion before a contract marks `completed`.
 - [Phase 2]: Replaced dark generic AI templates with the authentic airport parchment palette from `WOA Contract Hub — Marketplace UI.svg` (`#F0EBDE` canvas, `#FFFFFA` cards, `#141A1F` tarmac ink, `#1240C7` cobalt, `#F25E24` orange, `#A8C229` lime).
 - [Phase 2]: Implemented dedicated, uncluttered multi-page architecture: Discovery Board (`/marketplace`), 3-step creation studio wizard (`/contracts/new`), isolated In-Flight Operations Room (`/contracts/:id`), pilot flight deck (`/dashboard`), and player reputation dossier (`/profile/:id`).
+- [Quick 01]: Made WoA Player ID mandatory at registration and Discord username optional, safeguarding frontend avatar slicing and name rendering across all pages.
+- [Quick 02]: Configured unified full-stack Vercel deployment (React SPA + Serverless Express API) connected to Supabase PostgreSQL 16 with Vercel Cron cleanup for $0/mo.
 
 ### Pending Todos
 

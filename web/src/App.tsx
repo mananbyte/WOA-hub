@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthContext";
 import { Navbar } from "./components/Navbar";
 import { AuthModal } from "./components/AuthModal";
+import { OpsBackground } from "./components/OpsBackground";
 import { MarketplacePage } from "./pages/MarketplacePage";
 import { NewContractPage } from "./pages/NewContractPage";
 import { ContractDetailPage } from "./pages/ContractDetailPage";
@@ -11,6 +12,7 @@ import { ProfilePage } from "./pages/ProfilePage";
 import { AlliancesDirectoryPage } from "./pages/AlliancesDirectoryPage";
 import { AllianceDetailPage } from "./pages/AllianceDetailPage";
 import { AllianceOperationsDeckPage } from "./pages/AllianceOperationsDeckPage";
+
 
 const queryClient = new QueryClient();
 
@@ -33,7 +35,9 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <div className="min-h-screen bg-[#F0EBDE] text-[#141A1F] flex flex-col font-sans selection:bg-[#1240C7] selection:text-white">
+          <OpsBackground />
           <Navbar activeTab={activeTab} onNavigate={handleNavigate} />
+
 
           <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {activeTab === "marketplace" && (

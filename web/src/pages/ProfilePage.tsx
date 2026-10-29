@@ -98,7 +98,7 @@ export const ProfilePage = ({ userId, onNavigate }: ProfilePageProps) => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-[#C9C7BA]">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-[#141A1F] text-white flex items-center justify-center font-mono font-bold text-2xl shadow-sm">
-              {profile.discordUsername.slice(0, 2).toUpperCase()}
+              {(profile.discordUsername || profile.woaPlayerId || "WOA").slice(0, 2).toUpperCase()}
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export const ProfilePage = ({ userId, onNavigate }: ProfilePageProps) => {
                 </span>
               </div>
               <h1 className="text-2xl font-black font-mono text-[#141A1F] mt-0.5">
-                {profile.discordUsername}
+                {profile.discordUsername || profile.woaPlayerId}
               </h1>
               <p className="text-xs text-[#5E6366] font-mono">
                 MEMBER SINCE {new Date(profile.createdAt).toLocaleDateString()}

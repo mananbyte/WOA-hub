@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { AllianceService } from "../services/alliance.service.js";
 import { requireAuth } from "../middleware/auth.js";
+import { config } from "../config.js";
 import { validate } from "../middleware/validate.js";
 import {
   createAllianceSchema,
@@ -51,8 +52,7 @@ allianceRouter.get("/:slug", async (req: Request, res: Response, next: NextFunct
     if (authHeader && authHeader.startsWith("Bearer ")) {
       try {
         const jwt = await import("jsonwebtoken");
-        const JWT_SECRET = process.env.JWT_SECRET || "super-secret-jwt-key-replace-in-production-min-32-chars";
-        const payload = jwt.default.verify(authHeader.split(" ")[1], JWT_SECRET) as any;
+        const payload = jwt.default.verify(authHeader.split(" ")[1], config.jwtSecret) as { userId?: string };
         currentUserId = payload.userId;
       } catch {
         // Optional auth

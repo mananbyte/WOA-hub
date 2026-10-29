@@ -10,9 +10,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Authentication & Profiles
 
 - [x] **AUTH-01**: User can sign up with email and password
-- [x] **AUTH-02**: User must provide their Discord username during registration (stored for bot communications)
+- [x] **AUTH-02**: User can optionally provide their Discord username during registration (stored for bot communications)
 - [x] **AUTH-03**: User can log in with email/password and retain a persistent authenticated session
-- [x] **AUTH-04**: User can set and edit their WoA in-game Player ID on their profile
+- [x] **AUTH-04**: User must provide their WoA in-game Player ID during registration (mandatory), and can edit it on their profile
 - [x] **AUTH-05**: User can view other players' profiles with their WoA ID, Discord username, and activity summary
 
 ### Contract Marketplace (Posting & Discovery)

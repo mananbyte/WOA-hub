@@ -10,6 +10,8 @@ import {
   Sparkles,
   RotateCw,
 } from "lucide-react";
+import { AirportCrest } from "../components/AirportCrest";
+
 
 interface ContractDetailPageProps {
   contractId: string;
@@ -221,13 +223,16 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
 
         {/* Route Banner */}
         <div className="py-6 border-y border-[#C9C7BA] my-4 flex flex-col sm:flex-row items-center justify-around gap-6 text-center sm:text-left">
-          <div className="space-y-1">
-            <span className="text-[11px] font-mono font-bold uppercase text-[#5E6366]">
-              ORIGIN AIRPORT
-            </span>
-            <p className="text-4xl sm:text-5xl font-black font-mono text-[#141A1F]">
-              {listing.originAirport}
-            </p>
+          <div className="flex items-center gap-4">
+            <AirportCrest code={listing.originAirport} size={56} />
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono font-bold uppercase text-[#5E6366]">
+                ORIGIN AIRPORT
+              </span>
+              <p className="text-3xl sm:text-4xl font-black font-mono text-[#141A1F]">
+                {listing.originAirport}
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col items-center gap-1 text-[#1240C7]">
@@ -241,13 +246,16 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
             </div>
           </div>
 
-          <div className="space-y-1">
-            <span className="text-[11px] font-mono font-bold uppercase text-[#5E6366]">
-              DESTINATION AIRPORT
-            </span>
-            <p className="text-4xl sm:text-5xl font-black font-mono text-[#141A1F]">
-              {listing.destinationAirport}
-            </p>
+          <div className="flex items-center gap-4">
+            <AirportCrest code={listing.destinationAirport} size={56} />
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono font-bold uppercase text-[#5E6366]">
+                DESTINATION AIRPORT
+              </span>
+              <p className="text-3xl sm:text-4xl font-black font-mono text-[#141A1F]">
+                {listing.destinationAirport}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -259,14 +267,14 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
             </span>
             <div className="flex items-center justify-between mt-1">
               <span className="text-sm font-bold font-mono text-[#141A1F]">
-                {listing.creator.discordUsername}
+                {listing.creator.discordUsername || listing.creator.woaPlayerId}
               </span>
               <span className="text-xs font-mono font-bold text-[#1240C7]">
                 {listing.creator.reputationScore}% REP
               </span>
             </div>
             <p className="text-[11px] text-[#5E6366] font-mono mt-0.5">
-              WOA ID: {listing.creator.woaPlayerId || "NOT REGISTERED"}
+              WOA ID: {listing.creator.woaPlayerId} {listing.creator.discordUsername ? `• DISCORD: ${listing.creator.discordUsername}` : ""}
             </p>
           </div>
 
@@ -278,14 +286,14 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
               <>
                 <div className="flex items-center justify-between mt-1">
                   <span className="text-sm font-bold font-mono text-[#141A1F]">
-                    {activeClaim.claimant.discordUsername}
+                    {activeClaim.claimant.discordUsername || activeClaim.claimant.woaPlayerId}
                   </span>
                   <span className="text-xs font-mono font-bold text-[#1240C7]">
                     {activeClaim.claimant.reputationScore}% REP
                   </span>
                 </div>
                 <p className="text-[11px] text-[#5E6366] font-mono mt-0.5">
-                  WOA ID: {activeClaim.claimant.woaPlayerId || "NOT REGISTERED"}
+                  WOA ID: {activeClaim.claimant.woaPlayerId} {activeClaim.claimant.discordUsername ? `• DISCORD: ${activeClaim.claimant.discordUsername}` : ""}
                 </p>
               </>
             ) : (
@@ -328,7 +336,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
                 READY TO FLY THIS ROUTE?
               </p>
               <p className="text-[11px] text-[#5E6366]">
-                Claim this flight contract to coordinate dispatch with {listing.creator.discordUsername}.
+                Claim this flight contract to coordinate dispatch with {listing.creator.discordUsername || listing.creator.woaPlayerId}.
               </p>
             </div>
             <button
@@ -349,7 +357,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
                 CLAIMANT AWAITING YOUR APPROVAL
               </p>
               <p className="text-[11px] text-[#5E6366]">
-                Pilot {activeClaim?.claimant.discordUsername} requested this connection.
+                Pilot {activeClaim?.claimant.discordUsername || activeClaim?.claimant.woaPlayerId} requested this connection.
               </p>
             </div>
             <button

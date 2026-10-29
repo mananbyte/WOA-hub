@@ -30,14 +30,17 @@ export const AuthModal = () => {
       if (mode === "login") {
         await login(email, password);
       } else {
+        if (!woaPlayerId.trim()) {
+          throw new Error("World of Airports Player ID is required.");
+        }
         if (!ageConfirmed) {
           throw new Error("You must confirm you are at least 13 years of age.");
         }
         await register({
           email,
           password,
-          discord_username: discordUsername,
-          woa_player_id: woaPlayerId || undefined,
+          woa_player_id: woaPlayerId.trim(),
+          discord_username: discordUsername.trim() || undefined,
           age_confirmed: ageConfirmed,
         });
       }
@@ -75,7 +78,7 @@ export const AuthModal = () => {
         <p className="text-sm text-[#5E6366] mt-1 mb-5">
           {mode === "login"
             ? "Sign in to claim flight contracts and dispatch aircraft."
-            : "Connect your Discord handle and WoA player ID to start trading flights."}
+            : "Connect your WoA player ID to start trading flight contracts."}
         </p>
 
         {/* Mode Toggle Tabs */}
@@ -153,27 +156,27 @@ export const AuthModal = () => {
             <>
               <div>
                 <label className="block text-xs font-mono uppercase font-bold text-[#5E6366] mb-1">
-                  Discord Username
+                  World of Airports Player ID <span className="text-[#1240C7] font-bold">*</span>
                 </label>
                 <input
                   type="text"
                   required
-                  value={discordUsername}
-                  onChange={(e) => setDiscordUsername(e.target.value)}
-                  placeholder="e.g. CaptainFlyboy"
+                  value={woaPlayerId}
+                  onChange={(e) => setWoaPlayerId(e.target.value)}
+                  placeholder="e.g. WOA-94821"
                   className="w-full h-11 px-3.5 rounded-xl bg-[#FFFFFA] border border-[#C9C7BA] text-sm text-[#141A1F] placeholder:text-[#5E6366]/60 focus:outline-none focus:border-[#1240C7] focus:ring-1 focus:ring-[#1240C7] transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-mono uppercase font-bold text-[#5E6366] mb-1">
-                  World of Airports Player ID <span className="text-[#5E6366] font-normal">(Optional)</span>
+                  Discord Username <span className="text-[#5E6366] font-normal">(Optional)</span>
                 </label>
                 <input
                   type="text"
-                  value={woaPlayerId}
-                  onChange={(e) => setWoaPlayerId(e.target.value)}
-                  placeholder="e.g. WOA-94821"
+                  value={discordUsername}
+                  onChange={(e) => setDiscordUsername(e.target.value)}
+                  placeholder="e.g. CaptainFlyboy"
                   className="w-full h-11 px-3.5 rounded-xl bg-[#FFFFFA] border border-[#C9C7BA] text-sm text-[#141A1F] placeholder:text-[#5E6366]/60 focus:outline-none focus:border-[#1240C7] focus:ring-1 focus:ring-[#1240C7] transition"
                 />
               </div>

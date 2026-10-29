@@ -475,7 +475,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
                 </div>
                 <div>
                   <span className="text-[#5E6366]">PILOT: </span>
-                  <span className="font-bold text-[#141A1F]">{user?.discordUsername}</span>
+                  <span className="font-bold text-[#141A1F]">{user?.discordUsername || user?.woaPlayerId}</span>
                 </div>
               </div>
             </div>

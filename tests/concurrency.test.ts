@@ -12,6 +12,7 @@ async function runConcurrencyStressTest() {
       .send({
         email: `host_${Date.now()}@woahub.test`,
         password: "password123!",
+        woa_player_id: "WOA-HOST-99",
         discord_username: "HostPilot",
       });
     const hostToken = hostRes.body.token;
@@ -21,6 +22,7 @@ async function runConcurrencyStressTest() {
       .send({
         email: `claimant1_${Date.now()}@woahub.test`,
         password: "password123!",
+        woa_player_id: "WOA-CLAIMANT-1",
         discord_username: "Claimant1",
       });
     const token1 = claimant1Res.body.token;
@@ -30,6 +32,7 @@ async function runConcurrencyStressTest() {
       .send({
         email: `claimant2_${Date.now()}@woahub.test`,
         password: "password123!",
+        woa_player_id: "WOA-CLAIMANT-2",
         discord_username: "Claimant2",
       });
     const token2 = claimant2Res.body.token;

@@ -95,6 +95,7 @@ describe("Alliance Spaces & RBAC Tests", async () => {
         email: `cargo_boss_${timestamp}@test.com`,
         password: "Password123!",
         discord_username: `CargoBoss_${timestamp}`,
+        woa_player_id: `WOA-CB-${timestamp}`,
         age_confirmed: true,
       });
     const cargoBossToken = resFresh.body.token;
