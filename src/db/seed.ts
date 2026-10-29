@@ -832,11 +832,9 @@ export async function runSeed() {
   console.log("=================================================================\n");
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  runSeed()
-    .then(() => pool.end())
-    .catch((err) => {
-      console.error("❌ Seeding failed:", err);
-      process.exit(1);
-    });
-}
+runSeed()
+  .then(() => pool.end())
+  .catch((err) => {
+    console.error("❌ Seeding failed:", err);
+    process.exit(1);
+  });
