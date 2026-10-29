@@ -57,13 +57,13 @@ export const ContractCard = ({
   const statusInfo = getStatusDisplay(listing.status);
 
   return (
-    <div className="bg-[#FFFFFA] rounded-2xl border border-[#C9C7BA] p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5">
+    <div className="bg-[#FFFFFA] rounded-2xl border border-[#C9C7BA] p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:-translate-y-0.5">
       {/* Top Header: Tag Badge + Class Tag */}
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center flex-wrap gap-1.5">
+          <div className="flex items-center flex-wrap gap-1.5 min-w-0">
             <span
-              className={`h-[22px] px-3 rounded-full text-[11px] font-mono font-bold uppercase inline-flex items-center tracking-wider text-white shadow-2xs ${
+              className={`h-[22px] px-2.5 sm:px-3 rounded-full text-[10px] sm:text-[11px] font-mono font-bold uppercase inline-flex items-center tracking-wider text-white shadow-2xs ${
                 isOutgoing ? "bg-[#F25E24]" : "bg-[#1240C7]"
               }`}
             >
@@ -73,7 +73,7 @@ export const ContractCard = ({
             {listing.renewal && (
               <span
                 title="This contract is marked for recurring renewal upon completion"
-                className="h-[22px] px-2.5 rounded-full text-[10px] font-mono font-extrabold uppercase bg-[#A8C229] text-[#141A1F] inline-flex items-center gap-1 border border-[#8FA81F] shadow-2xs"
+                className="h-[22px] px-2 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-mono font-extrabold uppercase bg-[#A8C229] text-[#141A1F] inline-flex items-center gap-1 border border-[#8FA81F] shadow-2xs"
               >
                 <RotateCw className="w-3 h-3 text-[#141A1F]" />
                 ↻ RENEWAL
@@ -81,14 +81,14 @@ export const ContractCard = ({
             )}
 
             {listing.isCargo && (
-              <span className="h-[22px] px-2.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#141A1F] text-white inline-flex items-center gap-1">
+              <span className="h-[22px] px-2 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-mono font-bold uppercase bg-[#141A1F] text-white inline-flex items-center gap-1">
                 <Package className="w-3 h-3" />
                 CARGO
               </span>
             )}
           </div>
 
-          <span className="h-[22px] px-2.5 rounded-full text-[11px] font-mono font-bold bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA]">
+          <span className="h-[22px] px-2 sm:px-2.5 rounded-full text-[10px] sm:text-[11px] font-mono font-bold bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] shrink-0">
             CLASS {listing.aircraftClass}
           </span>
         </div>
@@ -96,37 +96,37 @@ export const ContractCard = ({
         {/* Route Row: Airport Crests + IATA Codes */}
         <div
           onClick={() => onSelect(listing.id)}
-          className="flex items-center justify-between my-2 cursor-pointer group-hover:text-[#1240C7] transition"
+          className="flex items-center justify-between my-2 cursor-pointer group-hover:text-[#1240C7] transition gap-2"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Origin crest + code */}
             <div className="flex flex-col items-center gap-1">
-              <AirportCrest code={listing.originAirport} size={36} />
-              <span className="text-lg font-extrabold font-mono tracking-tight text-[#141A1F]">
+              <AirportCrest code={listing.originAirport} size={32} />
+              <span className="text-base sm:text-lg font-extrabold font-mono tracking-tight text-[#141A1F]">
                 {listing.originAirport}
               </span>
             </div>
             {/* Flight arc connector */}
-            <div className="flex flex-col items-center gap-1 px-1">
+            <div className="flex flex-col items-center gap-0.5 sm:gap-1 px-0.5 sm:px-1">
               <div className="flex items-center gap-1 text-[#5E6366]">
-                <div className="w-4 h-0.5 bg-[#C9C7BA]" />
-                <Plane className="w-4 h-4 text-[#1240C7] -rotate-45" />
-                <div className="w-4 h-0.5 bg-[#C9C7BA]" />
+                <div className="w-2.5 sm:w-4 h-0.5 bg-[#C9C7BA]" />
+                <Plane className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-[#1240C7] -rotate-45" />
+                <div className="w-2.5 sm:w-4 h-0.5 bg-[#C9C7BA]" />
               </div>
-              <span className="text-[9px] font-mono text-[#5E6366] uppercase tracking-wider">FLIGHT</span>
+              <span className="text-[8px] sm:text-[9px] font-mono text-[#5E6366] uppercase tracking-wider">FLIGHT</span>
             </div>
             {/* Destination crest + code */}
             <div className="flex flex-col items-center gap-1">
-              <AirportCrest code={listing.destinationAirport} size={36} />
-              <span className="text-lg font-extrabold font-mono tracking-tight text-[#141A1F]">
+              <AirportCrest code={listing.destinationAirport} size={32} />
+              <span className="text-base sm:text-lg font-extrabold font-mono tracking-tight text-[#141A1F]">
                 {listing.destinationAirport}
               </span>
             </div>
           </div>
 
-          <div className="text-right">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#5E6366] block">STATUS</span>
-            <span className={`text-xs font-mono font-bold uppercase ${statusInfo.color}`}>
+          <div className="text-right shrink-0">
+            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#5E6366] block">STATUS</span>
+            <span className={`text-[11px] sm:text-xs font-mono font-bold uppercase ${statusInfo.color}`}>
               {statusInfo.label}
             </span>
           </div>

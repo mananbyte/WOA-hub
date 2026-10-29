@@ -212,7 +212,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
       )}
 
       {/* Hero Dossier Card */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="flex flex-wrap items-center gap-2">
@@ -350,7 +350,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
       </div>
 
       {/* 18-Hub Coverage Overview Dossier */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
@@ -453,7 +453,7 @@ export const AllianceDetailPage = ({ slug, onNavigate }: AllianceDetailPageProps
       {/* Membership Application Modal */}
       {applyModalOpen && (
         <div className="fixed inset-0 z-50 bg-[#141A1F]/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6">
+          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] max-w-lg w-full p-5 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-[#C9C7BA]/50 pb-4">
               <div>
                 <span className="text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#1240C7]">

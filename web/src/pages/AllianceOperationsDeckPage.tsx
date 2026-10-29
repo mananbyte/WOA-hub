@@ -298,7 +298,7 @@ export const AllianceOperationsDeckPage = ({
       </div>
 
       {/* Operations Deck Header */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <span className="text-xs font-mono font-extrabold uppercase tracking-widest text-[#1240C7]">
             CONSORTIUM COMMAND DECK
@@ -921,7 +921,7 @@ export const AllianceOperationsDeckPage = ({
       {/* Dispatch Contract Modal */}
       {postModalOpen && (
         <div className="fixed inset-0 z-50 bg-[#141A1F]/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6">
+          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] max-w-lg w-full p-5 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-[#C9C7BA]/50 pb-4">
               <div>
                 <span className="text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#1240C7]">

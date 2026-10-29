@@ -99,7 +99,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
               FLIGHT CREATION STUDIO
             </span>
           </div>
-          <h1 className="text-3xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
             OPEN A NEW FLIGHT CONTRACT
           </h1>
           <p className="text-sm text-[#5E6366] mt-0.5">
@@ -108,11 +108,11 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
         </div>
 
         {/* Step Indicator Pills */}
-        <div className="flex items-center gap-2 bg-[#FFFFFA] p-1.5 rounded-full border border-[#C9C7BA] shadow-2xs self-start">
+        <div className="flex items-center gap-1.5 sm:gap-2 bg-[#FFFFFA] p-1.5 rounded-full border border-[#C9C7BA] shadow-2xs self-start">
           {[1, 2, 3].map((s) => (
             <div
               key={s}
-              className={`px-3 py-1 rounded-full text-xs font-mono font-bold transition ${
+              className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold transition ${
                 step === s
                   ? "bg-[#141A1F] text-white shadow-xs"
                   : step > s
@@ -135,7 +135,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
       )}
 
       {/* Studio Wizard Cards */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs">
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in duration-150">
             <div>
@@ -235,7 +235,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
             </div>
 
             {/* Visual Route Preview Banner */}
-            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex flex-wrap items-center justify-between gap-3">
               <span className="text-xs font-mono font-bold text-[#5E6366]">COORDINATED ROUTE:</span>
               <div className="flex items-center gap-3">
                 <span className="text-xl font-black font-mono text-[#141A1F]">
@@ -259,7 +259,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
                   setError(null);
                   setStep(2);
                 }}
-                className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer flex items-center gap-2"
+                className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <span>CONTINUE TO AIRCRAFT CLASS</span>
                 <ArrowRight className="w-4 h-4" />
@@ -309,12 +309,12 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
             </div>
 
             {/* Cargo Toggle */}
-            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#141A1F] text-white flex items-center justify-center">
+            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-[#141A1F] text-white flex items-center justify-center shrink-0">
                   <Package className="w-5 h-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-bold font-mono text-[#141A1F]">
                     DEDICATED CARGO FREIGHTER FLIGHT
                   </p>
@@ -327,7 +327,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
               <button
                 type="button"
                 onClick={() => setIsCargo(!isCargo)}
-                className={`w-12 h-7 rounded-full p-1 transition cursor-pointer ${
+                className={`w-12 h-7 rounded-full p-1 transition cursor-pointer shrink-0 ${
                   isCargo ? "bg-[#1240C7]" : "bg-[#C9C7BA]"
                 }`}
               >
@@ -339,11 +339,11 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
               </button>
             </div>
 
-            <div className="flex items-center justify-between pt-4">
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pt-4">
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="h-11 px-5 rounded-full bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] text-xs font-mono font-bold tracking-wider hover:bg-[#FFFFFA] cursor-pointer flex items-center gap-2"
+                className="h-11 px-5 rounded-full bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] text-xs font-mono font-bold tracking-wider hover:bg-[#FFFFFA] cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>BACK</span>
@@ -352,7 +352,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
               <button
                 type="button"
                 onClick={() => setStep(3)}
-                className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer flex items-center gap-2"
+                className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <span>CONTINUE TO TIMING</span>
                 <ArrowRight className="w-4 h-4" />
@@ -396,13 +396,13 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
             </div>
 
             {/* Renewal Contract Toggle Card */}
-            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="p-4 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
                 <div className="w-10 h-10 rounded-full bg-[#A8C229] text-[#141A1F] flex items-center justify-center font-bold shrink-0">
                   <RotateCw className="w-5 h-5 text-[#141A1F]" />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-xs font-bold font-mono text-[#141A1F]">
                       RENEWABLE CONTRACT (RECURRING FLIGHTS)
                     </p>
@@ -480,11 +480,11 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-4">
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pt-4">
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="h-11 px-5 rounded-full bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] text-xs font-mono font-bold tracking-wider hover:bg-[#FFFFFA] cursor-pointer flex items-center gap-2"
+                className="h-11 px-5 rounded-full bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] text-xs font-mono font-bold tracking-wider hover:bg-[#FFFFFA] cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>BACK</span>
@@ -494,7 +494,7 @@ export const NewContractPage = ({ onNavigate }: NewContractPageProps) => {
                 type="button"
                 disabled={submitting}
                 onClick={handleSubmit}
-                className="h-12 px-8 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer flex items-center gap-2 shadow-md shadow-[#1240C7]/20 disabled:opacity-50"
+                className="h-12 px-8 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-[#1240C7]/20 disabled:opacity-50 w-full sm:w-auto"
               >
                 <span>{submitting ? "PUBLISHING TO EXCHANGE..." : "SUBMIT & PUBLISH CONTRACT"}</span>
                 <CheckCircle2 className="w-4 h-4" />

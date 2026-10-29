@@ -58,24 +58,24 @@ export const DashboardPage = ({ onNavigate }: DashboardPageProps) => {
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
       {/* Header Pilot Deck Banner */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono font-extrabold uppercase tracking-widest text-[#1240C7]">
               PILOT OPERATIONS DECK
             </span>
           </div>
-          <h1 className="text-3xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1 break-words">
             COMMAND CENTER: {(user.discordUsername || user.woaPlayerId).toUpperCase()}
           </h1>
-          <p className="text-sm text-[#5E6366] mt-0.5 font-mono">
+          <p className="text-xs sm:text-sm text-[#5E6366] mt-0.5 font-mono">
             WOA ID: {user.woaPlayerId} {user.discordUsername ? `• DISCORD: ${user.discordUsername}` : ""} • REPUTATION SCORE: {user.reputationScore}%
           </p>
         </div>
 
         <button
           onClick={() => onNavigate("new-contract")}
-          className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] transition cursor-pointer flex items-center gap-2 self-start md:self-auto shadow-xs"
+          className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] transition cursor-pointer flex items-center gap-2 self-start md:self-auto shadow-xs shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>NEW FLIGHT CONTRACT</span>
@@ -113,31 +113,33 @@ export const DashboardPage = ({ onNavigate }: DashboardPageProps) => {
       </div>
 
       {/* Tab Switcher */}
-      <div className="flex bg-[#FFFFFA] p-1.5 rounded-full border border-[#C9C7BA] max-w-md shadow-2xs">
+      <div className="flex bg-[#FFFFFA] p-1 sm:p-1.5 rounded-full border border-[#C9C7BA] max-w-md shadow-2xs">
         <button
           onClick={() => setActiveTab("outgoing")}
-          className={`flex-1 py-2 text-xs font-mono font-bold rounded-full transition cursor-pointer ${
+          className={`flex-1 py-2 px-2.5 sm:px-4 text-[10px] sm:text-xs font-mono font-bold rounded-full transition cursor-pointer text-center ${
             activeTab === "outgoing"
               ? "bg-[#141A1F] text-white shadow-xs"
               : "text-[#5E6366] hover:text-[#141A1F]"
           }`}
         >
-          MY OUTGOING FLIGHTS ({outgoingFlights.length})
+          <span className="sm:hidden">OUTGOING ({outgoingFlights.length})</span>
+          <span className="hidden sm:inline">MY OUTGOING FLIGHTS ({outgoingFlights.length})</span>
         </button>
         <button
           onClick={() => setActiveTab("incoming")}
-          className={`flex-1 py-2 text-xs font-mono font-bold rounded-full transition cursor-pointer ${
+          className={`flex-1 py-2 px-2.5 sm:px-4 text-[10px] sm:text-xs font-mono font-bold rounded-full transition cursor-pointer text-center ${
             activeTab === "incoming"
               ? "bg-[#141A1F] text-white shadow-xs"
               : "text-[#5E6366] hover:text-[#141A1F]"
           }`}
         >
-          INCOMING TURNAROUNDS ({incomingFlights.length})
+          <span className="sm:hidden">INCOMING ({incomingFlights.length})</span>
+          <span className="hidden sm:inline">INCOMING TURNAROUNDS ({incomingFlights.length})</span>
         </button>
       </div>
 
       {/* Flight Operations Table / Cards */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 shadow-xs">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-6 shadow-xs">
         {loading ? (
           <div className="py-12 text-center">
             <div className="w-8 h-8 border-3 border-[#1240C7] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
@@ -164,15 +166,15 @@ export const DashboardPage = ({ onNavigate }: DashboardPageProps) => {
             {displayedListings.map((item) => (
               <div
                 key={item.id}
-                className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-[#F0EBDE]/30 -mx-4 px-4 rounded-xl transition"
+                className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-[#F0EBDE]/30 -mx-2 sm:-mx-4 px-2 sm:px-4 rounded-xl transition"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-center text-[#1240C7] font-mono font-bold text-sm">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#F0EBDE] border border-[#C9C7BA] flex items-center justify-center text-[#1240C7] font-mono font-bold text-sm shrink-0">
                     {item.aircraftClass}
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-base font-black font-mono text-[#141A1F]">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm sm:text-base font-black font-mono text-[#141A1F]">
                         {item.originAirport} ➔ {item.destinationAirport}
                       </span>
                       {item.isCargo && (
@@ -187,10 +189,10 @@ export const DashboardPage = ({ onNavigate }: DashboardPageProps) => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 w-full sm:w-auto">
                   <button
                     onClick={() => onNavigate("dashboard", item.id)}
-                    className="h-9 px-5 rounded-full bg-[#141A1F] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#252E36] transition cursor-pointer flex items-center gap-1.5"
+                    className="h-9 px-5 rounded-full bg-[#141A1F] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#252E36] transition cursor-pointer flex items-center justify-center gap-1.5 w-full sm:w-auto"
                   >
                     <span>ENTER OPS ROOM</span>
                     <ArrowRight className="w-3.5 h-3.5" />

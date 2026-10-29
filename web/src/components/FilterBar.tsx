@@ -46,15 +46,15 @@ export const FilterBar = ({
   };
 
   return (
-    <div className="w-full bg-[#FFFFFA] rounded-full border border-[#C9C7BA] shadow-xs px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 min-h-[57px]">
+    <div className="w-full bg-[#FFFFFA] rounded-2xl sm:rounded-full border border-[#C9C7BA] shadow-xs px-3 sm:px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 min-h-[57px]">
       {/* Filter Controls Row */}
-      <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
         {/* Airport Select */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 max-w-full">
           <select
             value={filters.airport || "ALL AIRPORTS"}
             onChange={(e) => handleAirportChange(e.target.value)}
-            className="h-8 px-3 rounded-full text-xs font-mono font-bold uppercase bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] focus:outline-none focus:border-[#1240C7] cursor-pointer"
+            className="h-8 px-2.5 sm:px-3 rounded-full text-xs font-mono font-bold uppercase bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] focus:outline-none focus:border-[#1240C7] cursor-pointer"
           >
             <option value="ALL AIRPORTS">ALL AIRPORTS (18)</option>
             {WOA_AIRPORTS.map((ap) => (
@@ -96,7 +96,7 @@ export const FilterBar = ({
         <select
           value={filters.class || "ALL"}
           onChange={(e) => handleClassChange(e.target.value as any)}
-          className="h-8 px-3 rounded-full text-xs font-mono font-bold uppercase bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] focus:outline-none focus:border-[#1240C7] cursor-pointer"
+          className="h-8 px-2.5 sm:px-3 rounded-full text-xs font-mono font-bold uppercase bg-[#F0EBDE] text-[#141A1F] border border-[#C9C7BA] focus:outline-none focus:border-[#1240C7] cursor-pointer"
         >
           {CLASSES.map((cls) => (
             <option key={cls} value={cls}>
@@ -110,7 +110,7 @@ export const FilterBar = ({
           <button
             type="button"
             onClick={() => handleTypeChange("ALL")}
-            className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold transition cursor-pointer ${
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition cursor-pointer ${
               !filters.type
                 ? "bg-[#141A1F] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F]"
@@ -121,7 +121,7 @@ export const FilterBar = ({
           <button
             type="button"
             onClick={() => handleTypeChange("OUTGOING")}
-            className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold transition cursor-pointer ${
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition cursor-pointer ${
               filters.type === "outgoing"
                 ? "bg-[#F25E24] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F]"
@@ -132,7 +132,7 @@ export const FilterBar = ({
           <button
             type="button"
             onClick={() => handleTypeChange("INCOMING")}
-            className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold transition cursor-pointer ${
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition cursor-pointer ${
               filters.type === "incoming"
                 ? "bg-[#1240C7] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F]"
@@ -158,13 +158,13 @@ export const FilterBar = ({
       </div>
 
       {/* Action / Refresh Button */}
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center justify-end w-full sm:w-auto gap-3 shrink-0">
         <div className="h-6 w-px bg-[#C9C7BA] hidden sm:block shrink-0" />
         <button
           type="button"
           onClick={onRefresh}
           disabled={isLoading}
-          className="h-9 px-4 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-xs shrink-0"
+          className="h-9 px-4 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-xs w-full sm:w-auto shrink-0"
         >
           <RotateCw className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`} />
           <span>REFRESH</span>

@@ -178,7 +178,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
       </button>
 
       {/* Hero Flight Room Header */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div className="flex flex-wrap items-center gap-2">
             <span
@@ -201,7 +201,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-mono text-[#5E6366]">LIFECYCLE STATUS:</span>
             <span
               className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
@@ -330,7 +330,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
 
         {/* State: Open & Not Creator */}
         {listing.status === "open" && !isCreator && (
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-[#E0E8FA] border border-[#1240C7]/30">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#E0E8FA] border border-[#1240C7]/30">
             <div>
               <p className="text-xs font-bold font-mono text-[#141A1F]">
                 READY TO FLY THIS ROUTE?
@@ -342,7 +342,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
             <button
               onClick={handleClaim}
               disabled={actionLoading}
-              className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer disabled:opacity-50"
+              className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer disabled:opacity-50 w-full sm:w-auto shrink-0"
             >
               {actionLoading ? "CLAIMING..." : "CLAIM CONNECTION"}
             </button>
@@ -351,7 +351,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
 
         {/* State: Claimed -> Needs Creator Approval */}
         {listing.status === "claimed" && isCreator && (
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-[#E0E8FA] border border-[#1240C7]/30">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#E0E8FA] border border-[#1240C7]/30">
             <div>
               <p className="text-xs font-bold font-mono text-[#141A1F]">
                 CLAIMANT AWAITING YOUR APPROVAL
@@ -363,7 +363,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
             <button
               onClick={handleApprove}
               disabled={actionLoading}
-              className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer disabled:opacity-50"
+              className="h-11 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] cursor-pointer disabled:opacity-50 w-full sm:w-auto shrink-0"
             >
               {actionLoading ? "APPROVING..." : "APPROVE CLAIM"}
             </button>
@@ -483,7 +483,7 @@ export const ContractDetailPage = ({ contractId, onNavigate }: ContractDetailPag
       {/* Cancellation Modal */}
       {cancelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141A1F]/40 backdrop-blur-xs">
-          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] shadow-2xl p-6 max-w-md w-full space-y-4">
+          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] shadow-2xl p-5 sm:p-6 max-w-md w-full space-y-4 max-h-[90vh] overflow-y-auto">
             <h3 className="text-lg font-bold font-mono text-[#F25E24]">
               CONFIRM CONTRACT CANCELLATION
             </h3>

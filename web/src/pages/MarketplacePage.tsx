@@ -81,7 +81,7 @@ export const MarketplacePage = ({ onNavigate }: MarketplacePageProps) => {
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-[#141A1F] leading-[1.02]">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-[#141A1F] leading-[1.02]">
               AIRPORT FLEET<br />EXCHANGE
             </h1>
 
@@ -140,13 +140,13 @@ export const MarketplacePage = ({ onNavigate }: MarketplacePageProps) => {
           </h3>
           <div className="flex-1 h-px bg-[#C9C7BA]" />
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-2 sm:gap-3 overflow-x-auto sm:flex-wrap pb-2 sm:pb-0">
           {WOA_AIRPORTS.map((ap) => (
             <button
               key={ap.code}
               onClick={() => setFilters((f) => ({ ...f, airport: f.airport === ap.code ? undefined : ap.code }))}
               title={`${ap.code} — ${ap.name}`}
-              className={`group flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-mono font-bold transition cursor-pointer ${
+              className={`group flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-mono font-bold transition cursor-pointer shrink-0 ${
                 filters.airport === ap.code
                   ? "bg-[#1240C7] border-[#0E339E] text-white shadow-md"
                   : "bg-[#FFFFFA] border-[#C9C7BA] text-[#141A1F] hover:border-[#1240C7]/40 hover:bg-[#F0EBDE]"
@@ -164,9 +164,9 @@ export const MarketplacePage = ({ onNavigate }: MarketplacePageProps) => {
 
       {/* ── Exchange Board ── */}
       <section id="exchange-board" className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold font-mono text-[#141A1F] tracking-tight">
+            <h2 className="text-lg sm:text-xl font-bold font-mono text-[#141A1F] tracking-tight">
               LIVE FLIGHT EXCHANGE BOARD
             </h2>
             <span className="px-2.5 py-0.5 rounded-full bg-[#141A1F] text-white text-xs font-mono font-bold">

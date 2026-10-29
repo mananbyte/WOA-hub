@@ -71,17 +71,17 @@ export const AlliancesDirectoryPage = ({ onNavigate }: AlliancesDirectoryPagePro
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
       {/* Header Banner */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono font-extrabold uppercase tracking-widest text-[#1240C7]">
               ALLIANCE SPACES & FLEET CONSORTIUMS
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
+          <h1 className="text-2xl sm:text-4xl font-extrabold font-mono tracking-tight text-[#141A1F] mt-1">
             GLOBAL AIRPORT ALLIANCES
           </h1>
-          <p className="text-sm text-[#5E6366] max-w-xl mt-1 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#5E6366] max-w-xl mt-1 leading-relaxed">
             Organized player groups coordinating assigned airport hubs, private member contracts, and scheduled fleet networks across World of Airports.
           </p>
         </div>
@@ -91,7 +91,7 @@ export const AlliancesDirectoryPage = ({ onNavigate }: AlliancesDirectoryPagePro
             if (!isAuthenticated) openAuthModal("login");
             else setCreateModalOpen(true);
           }}
-          className="h-12 px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition cursor-pointer flex items-center gap-2 self-start md:self-auto shadow-md shadow-[#1240C7]/20"
+          className="h-11 sm:h-12 px-5 sm:px-6 rounded-full bg-[#1240C7] text-white text-xs font-mono font-bold tracking-wider hover:bg-[#0E339E] active:scale-95 transition cursor-pointer flex items-center gap-2 self-start md:self-auto shadow-md shadow-[#1240C7]/20 shrink-0"
         >
           <Plus className="w-4 h-4 text-white" />
           <span>REGISTER AN ALLIANCE</span>
@@ -99,7 +99,7 @@ export const AlliancesDirectoryPage = ({ onNavigate }: AlliancesDirectoryPagePro
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="w-full bg-[#FFFFFA] rounded-full border border-[#C9C7BA] shadow-xs px-4 py-2 flex flex-col md:flex-row items-center justify-between gap-3 min-h-[57px]">
+      <div className="w-full bg-[#FFFFFA] rounded-2xl sm:rounded-full border border-[#C9C7BA] shadow-xs px-3 sm:px-4 py-2 flex flex-col md:flex-row items-center justify-between gap-3 min-h-[57px]">
         <div className="flex items-center gap-2.5 w-full md:w-64 pl-2">
           <Search className="w-4 h-4 text-[#5E6366] shrink-0" />
           <input
@@ -209,7 +209,7 @@ export const AlliancesDirectoryPage = ({ onNavigate }: AlliancesDirectoryPagePro
       {/* Create Alliance Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141A1F]/40 backdrop-blur-xs">
-          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] shadow-2xl p-7 max-w-lg w-full space-y-4 animate-in fade-in zoom-in-95">
+          <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] shadow-2xl p-5 sm:p-7 max-w-lg w-full space-y-4 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold font-mono text-[#141A1F]">
                 REGISTER NEW ALLIANCE
@@ -261,7 +261,7 @@ export const AlliancesDirectoryPage = ({ onNavigate }: AlliancesDirectoryPagePro
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-mono font-bold uppercase text-[#5E6366] mb-1">
                     Airport Model

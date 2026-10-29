@@ -94,7 +94,7 @@ export const ProfilePage = ({ userId, onNavigate }: ProfilePageProps) => {
       </button>
 
       {/* Main Dossier Card */}
-      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="bg-[#FFFFFA] rounded-3xl border border-[#C9C7BA] p-4 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-[#C9C7BA]">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-[#141A1F] text-white flex items-center justify-center font-mono font-bold text-2xl shadow-sm">
@@ -146,18 +146,18 @@ export const ProfilePage = ({ userId, onNavigate }: ProfilePageProps) => {
               WORLD OF AIRPORTS PLAYER ID
             </span>
             {editingWoaId ? (
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex flex-wrap items-center gap-2 mt-2">
                 <input
                   type="text"
                   value={newWoaId}
                   onChange={(e) => setNewWoaId(e.target.value)}
                   placeholder="e.g. WOA-84920"
-                  className="h-10 px-3 rounded-xl bg-[#FFFFFA] border border-[#C9C7BA] text-xs font-mono font-bold text-[#141A1F] focus:outline-none focus:border-[#1240C7]"
+                  className="h-10 px-3 rounded-xl bg-[#FFFFFA] border border-[#C9C7BA] text-xs font-mono font-bold text-[#141A1F] focus:outline-none focus:border-[#1240C7] flex-1 min-w-[140px]"
                 />
                 <button
                   onClick={handleSaveWoaId}
                   disabled={updating}
-                  className="h-10 px-4 rounded-xl bg-[#1240C7] text-white text-xs font-mono font-bold hover:bg-[#0E339E] cursor-pointer flex items-center gap-1.5"
+                  className="h-10 px-4 rounded-xl bg-[#1240C7] text-white text-xs font-mono font-bold hover:bg-[#0E339E] cursor-pointer flex items-center gap-1.5 shrink-0"
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>SAVE</span>
