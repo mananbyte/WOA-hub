@@ -109,6 +109,9 @@ export class ContractService {
     allianceId?: string;
     currentUserId?: string;
   }) {
+    // Passive cleanup of expired listings on read
+    await this.archiveExpiredListings().catch(() => {});
+
     const conditions = [];
 
     if (filters.status) {
