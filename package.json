@@ -17,6 +17,7 @@
     "db:generate": "node node_modules/drizzle-kit/bin.cjs generate",
     "db:push": "node node_modules/drizzle-kit/bin.cjs push",
     "db:seed": "node node_modules/tsx/dist/cli.mjs src/db/seed.ts",
+    "db:clean": "node node_modules/tsx/dist/cli.mjs src/db/clean.ts",
     "test": "tsx tests/auth.test.ts && tsx tests/contract.test.ts && tsx tests/concurrency.test.ts && tsx tests/alliance.test.ts && tsx tests/escalation.test.ts && tsx tests/alliance_guest_flow.test.ts"
   },
   "keywords": [
