@@ -20,4 +20,22 @@ export const pool = new Pool({
   connectionTimeoutMillis: 10000,
 });
 
+pool.on("error", (err) => {
+  console.error("[PG POOL ERROR] Unexpected error on idle database client:", err.message);
+});
+
 export const db = drizzle(pool, { schema });
+
+export async function checkDbConnection(): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const client = await pool.connect();
+    try {
+      await client.query("SELECT 1");
+      return { ok: true };
+    } finally {
+      client.release();
+    }
+  } catch (err: any) {
+    return { ok: false, error: err.message };
+  }
+}
