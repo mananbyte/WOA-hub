@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { GlobalFlightMap } from "../components/GlobalFlightMap";
 import { FilterBar } from "../components/FilterBar";
 import { ContractCard } from "../components/ContractCard";
 import { AirportCrest } from "../components/AirportCrest";
@@ -130,11 +129,6 @@ export const MarketplacePage = ({ onNavigate }: MarketplacePageProps) => {
               <span className="text-[11px] font-mono font-bold text-[#141A1F]">LIVE DISPATCH</span>
             </div>
           </div>
-        </div>
-
-        {/* Interactive Global Flight Map */}
-        <div className="w-full" style={{ maxHeight: 420, overflow: "hidden" }}>
-          <GlobalFlightMap />
         </div>
       </section>
 
