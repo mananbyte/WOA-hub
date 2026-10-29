@@ -47,7 +47,7 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-[#F0EBDE] border-b border-[#C9C7BA]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[76px] sm:h-[86px] flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[76px] sm:h-[86px] flex items-center justify-between gap-3 lg:gap-6">
 
         {/* ── Left: SkyLink WoA brand ── */}
         <div
@@ -55,7 +55,7 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
             setMobileMenuOpen(false);
             onNavigate("marketplace");
           }}
-          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none min-w-0"
+          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none shrink-0"
         >
           {/* Premium twin-jet crest */}
           <div className="group-hover:scale-105 transition-transform duration-200 shrink-0">
@@ -63,8 +63,8 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
           </div>
 
           {/* Wordmark */}
-          <div className="flex flex-col min-w-0">
-            <div className="flex items-baseline gap-1.5 sm:gap-2">
+          <div className="flex flex-col shrink-0">
+            <div className="flex items-baseline gap-1.5 sm:gap-2 whitespace-nowrap shrink-0">
               <span
                 className="font-black text-[#141A1F] text-lg sm:text-[1.25rem] leading-none tracking-tight"
                 style={{ fontFamily: "Inter, system-ui, sans-serif", letterSpacing: "-0.025em" }}
@@ -74,21 +74,21 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
               <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#5E6366] tracking-widest uppercase leading-none">
                 WOA
               </span>
-              <span className="hidden sm:inline text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-[#1240C7]/10 text-[#1240C7] tracking-wide">
+              <span className="hidden sm:inline-block text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-[#1240C7]/10 text-[#1240C7] tracking-wide leading-none">
                 BETA
               </span>
             </div>
-            <span className="text-[10px] font-mono tracking-[0.08em] uppercase text-[#5E6366] mt-0.5 hidden sm:block">
+            <span className="text-[10px] font-mono tracking-[0.08em] uppercase text-[#5E6366] mt-0.5 hidden xl:block whitespace-nowrap">
               Connect Your Fleets · Expand Your Reach
             </span>
           </div>
         </div>
 
         {/* ── Center: Desktop Navigation pill tabs ── */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#FFFFFA] p-1.5 rounded-full border border-[#C9C7BA] shadow-xs">
+        <nav className="hidden md:flex items-center gap-1 bg-[#FFFFFA] p-1 lg:p-1.5 rounded-full border border-[#C9C7BA] shadow-xs shrink-0">
           <button
             onClick={() => onNavigate("marketplace")}
-            className={`px-5 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 lg:px-4 lg:py-2 xl:px-5 xl:py-2 rounded-full text-[11px] lg:text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
               activeTab === "marketplace"
                 ? "bg-[#141A1F] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F] hover:bg-[#F0EBDE]"
@@ -99,7 +99,7 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
           </button>
           <button
             onClick={() => onNavigate("alliances")}
-            className={`px-5 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 lg:px-4 lg:py-2 xl:px-5 xl:py-2 rounded-full text-[11px] lg:text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
               activeTab === "alliances"
                 ? "bg-[#141A1F] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F] hover:bg-[#F0EBDE]"
@@ -116,7 +116,7 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
                 onNavigate("new-contract");
               }
             }}
-            className={`px-5 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 lg:px-4 lg:py-2 xl:px-5 xl:py-2 rounded-full text-[11px] lg:text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
               activeTab === "new-contract"
                 ? "bg-[#141A1F] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F] hover:bg-[#F0EBDE]"
@@ -133,7 +133,7 @@ export const Navbar = ({ activeTab, onNavigate }: NavbarProps) => {
                 onNavigate("dashboard");
               }
             }}
-            className={`px-5 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 lg:px-4 lg:py-2 xl:px-5 xl:py-2 rounded-full text-[11px] lg:text-xs font-mono font-bold tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
               activeTab === "dashboard"
                 ? "bg-[#141A1F] text-white shadow-xs"
                 : "text-[#5E6366] hover:text-[#141A1F] hover:bg-[#F0EBDE]"
